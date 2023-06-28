@@ -12,7 +12,7 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __constcodigo_oficinat()
+    public function __construct()
     {
         $this->middleware('auth');
     }
@@ -24,7 +24,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->Activado){
+        if(Auth::user()/*->Activado*/){
             return view('home');
         }
         else{

@@ -38,7 +38,7 @@ class RegisterController extends Controller
      *
      * @return void
      */
-    public function __constcodigo_oficinat()
+    public function __construct()
     {
         $this->middleware('guest');
     }
@@ -59,7 +59,7 @@ class RegisterController extends Controller
             'Nombres_y_Apellidos.required' => 'El campo de Nombres y Apellidos es requerido',
             'email.required' => 'El campo de Correo es requerido',
             'email.email' => 'El campo debe ser de tipo correo',
-            'codigo_oficina_Oficina.required' => 'El campo de codigo_oficina Instito es requerido',
+            'codigo_oficina.required' => 'El campo de codigo_oficina es requerido',
             'password.required' => 'El campo de Contraseña es requerido',
             'password.min'=>'El campo de Contraseña debe ser de minimo 8 caracteres',
             'password.confirmed' => 'El campo de Contraseña no coincide con el campo de Confirmar Contraseña',
@@ -69,7 +69,7 @@ class RegisterController extends Controller
                 'DNI' => 'required|numeric|digits:8',
                 'Nombres_y_Apellidos' => 'required',
                 'email' => 'required|email',
-                'codigo_oficina_Oficina' => 'required',
+                'codigo_of' => 'required',
                 'password' => 'required|min:8|confirmed',
         ],$messages);
     }

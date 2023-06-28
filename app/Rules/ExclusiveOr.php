@@ -9,7 +9,7 @@ class ExclusiveOr implements Rule
     protected $firstField;
     protected $secondField;
 
-    public function __constcodigo_oficinat($firstField, $secondField)
+    public function __construct($firstField, $secondField)
     {
         $this->firstField = $firstField;
         $this->secondField = $secondField;

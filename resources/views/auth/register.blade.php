@@ -56,19 +56,19 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="codigo_oficina_Oficina"
+                                <label for="codigo_of"
                                     class="col-md-4 col-form-label text-md-end">{{ __('Oficina') }}</label>
                                 <div class="col-md-6">
-                                    <select name="codigo_oficina_Oficina" class="form-control">
+                                    <select name="codigo_of" class="form-control">
                                         <option value="">Seleccionar Oficina</option>
                                         @foreach ($oficinas as $oficina)
                                             <option value="{{ $oficina->codigo_oficina }}">{{ $oficina->nombre }}</option>
                                         @endforeach
                                     </select>
-                                    @error('codigo_oficina_Oficina')
+                                    @error('codigo_of')
                                         <span class="error text-danger">{{ $message }}</span>
                                     @else
-                                        <small class="form-text text-info">Campo obligatorio si es de tipo Contador.</small>
+                                        <small class="form-text text-info">Campo obligatorio si es de tipo Personal_Geredu.</small>
                                     @enderror
                                 </div>
                             </div>

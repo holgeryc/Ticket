@@ -43,21 +43,21 @@
                         <label for="Tipo"></label>
                         <select wire:model="Tipo" class="form-control" id="Tipo" placeholder="Tipo">
                             <option value="">Seleccion Tipo</option>
-                            <option value="Contador">Contador</option>
+                            <option value="Personal_Geredu">Personal_Geredu</option>
                             <option value="Controlador">Controlador</option>
                             <option value="Administrador">Administrador</option>
                         </select>
                         @error('Tipo')
                             <span class="error text-danger">{{ $message }}</span>
                         @else
-                            <small class="form-text text-info">De no seleccionar, sera de tipo Contador.</small>
+                            <small class="form-text text-info">De no seleccionar, sera de tipo Personal_Geredu.</small>
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="codigo_oficina_Oficina"></label>
-                        <select wire:model="codigo_oficina_Oficina" class="form-control" id="codigo_oficina_Oficina"
+                        <label for="codigo_oficina"></label>
+                        <select wire:model="codigo_oficina" class="form-control" id="codigo_oficina"
                             placeholder="codigo_oficina Oficina">
-                            @error('codigo_oficina_Oficina')
+                            @error('codigo_oficina')
                                 <span class="error text-danger">{{ $message }}</span>
                             @enderror>
                             <option value="">Seleccionar Oficina</option>
@@ -65,10 +65,10 @@
                                 <option value="{{ $oficina->codigo_oficina }}">{{ $oficina->Nombre }}</option>
                             @endforeach
                         </select>
-                        @error('codigo_oficina_Oficina')
+                        @error('codigo_oficina')
                             <span class="error text-danger">{{ $message }}</span>
                         @else
-                            <small class="form-text text-info">Campo obligatorio si es de tipo Contador.</small>
+                            <small class="form-text text-info">Campo obligatorio si es de tipo Personal_Geredu.</small>
                         @enderror
                     </div>
 
@@ -135,29 +135,29 @@
                         <label for="Tipo">Tipo de Usuario</label>
                         <select wire:model="Tipo" class="form-control" id="Tipo" placeholder="Tipo">
                             <option value="">Seleccion Tipo</option>
-                            <option value="Contador">Contador</option>
+                            <option value="Personal_Geredu">Personal_Geredu</option>
                             <option value="Controlador">Controlador</option>
                             <option value="Administrador">Administrador</option>
                         </select>
                         @error('Tipo')
                             <span class="error text-danger">{{ $message }}</span>
                         @else
-                            <small class="form-text text-info">De no seleccionar, sera de tipo Contador.</small>
+                            <small class="form-text text-info">De no seleccionar, sera de tipo Personal_Geredu.</small>
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="codigo_oficina_Oficina">Oficina Asociado</label>
-                        <select wire:model="codigo_oficina_Oficina" class="form-control" id="codigo_oficina_Oficina"
+                        <label for="codigo_oficina">Oficina Asociado</label>
+                        <select wire:model="codigo_oficina" class="form-control" id="codigo_oficina"
                             placeholder="codigo_oficina Oficina">
                             <option value="">Seleccionar Oficina</option>
                             @foreach ($oficinas as $oficina)
                                 <option value="{{ $oficina->codigo_oficina }}">{{ $oficina->Nombre }}</option>
                             @endforeach
                         </select>
-                        @error('codigo_oficina_Oficina')
+                        @error('codigo_oficina')
                             <span class="error text-danger">{{ $message }}</span>
                         @else
-                            <small class="form-text text-info">Campo obligatorio si es de tipo Contador.</small>
+                            <small class="form-text text-info">Campo obligatorio si es de tipo Personal_Geredu.</small>
                         @enderror
                     </div>
                     <div class="form-group">

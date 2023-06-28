@@ -51,7 +51,7 @@
                         <input wire:model="Nombres_y_Apellidos" type="text" class="form-control" id="Nombres_y_Apellidos"
                                placeholder="Nombres y Apellidos" oninput="this.value = this.value.toUpperCase()">
                         @auth
-                            @if (Auth::user()->Tipo === 'Contador')
+                            @if (Auth::user()->Tipo === 'Personal_Geredu')
                                 @error('Nombres_y_Apellidos')
                                     <span class="error text-danger">{{ $message }}</span>
                                 @else
@@ -94,17 +94,17 @@
                         @enderror
                     </div>
                     @auth
-                        @if (Auth::user()->Tipo != 'Contador')
+                        @if (Auth::user()->Tipo != 'Personal_Geredu')
                             <div class="form-group">
-                                <label for="codigo_oficina_Oficina">Oficina</label>
-                                <select wire:model="codigo_oficina_Oficina" class="form-control" id="codigo_oficina_Oficina"
+                                <label for="codigo_oficina">Oficina</label>
+                                <select wire:model="codigo_oficina" class="form-control" id="codigo_oficina"
                                     placeholder="codigo_oficina Oficina">
                                     <option value="">Seleccionar Oficina</option>
                                     @foreach ($oficinas as $oficina)
                                         <option value="{{ $oficina->codigo_oficina }}">{{ $oficina->Nombre }}</option>
                                     @endforeach
                                 </select>
-                                @error('codigo_oficina_Oficina')
+                                @error('codigo_oficina')
                                     <span class="error text-danger">{{ $message }}</span>
                                 @else
                                     <small class="form-text text-info">Campo obligatorio.</small>
@@ -152,7 +152,7 @@
                             placeholder="Nro ticket" @if ($Asignado || $usuario) readonly @endif
                             oninput="if (this.value.trim() !== '') { document.getElementById('Asignado').readOnly = true; document.getElementById('usuario').readOnly = true; } else { document.getElementById('Asignado').readOnly = false; document.getElementById('usuario').readOnly = false; }">
                         @auth
-                            @if (Auth::user()->Tipo === 'Contador')
+                            @if (Auth::user()->Tipo === 'Personal_Geredu')
                                 @error('Nro_ticket')
                                     <span class="error text-danger">{{ $message }}</span>
                                 @else
@@ -167,7 +167,7 @@
                             placeholder="Usuario" @if ($ruta_imagen || $Nro_ticket) readonly @endif
                             oninput="if (this.value.trim() !== '') { document.getElementById('ruta_imagen').readOnly = true; document.getElementById('Nro_ticket').readOnly = true; } else { document.getElementById('ruta_imagen').readOnly = false; document.getElementById('Nro_ticket').readOnly = false; }">
                         @auth
-                            @if (Auth::user()->Tipo === 'Contador')
+                            @if (Auth::user()->Tipo === 'Personal_Geredu')
                                 @error('usuario')
                                     <span class="error text-danger">{{ $message }}</span>
                                 @else
@@ -182,7 +182,7 @@
                         <input wire:model="Nombres_y_Apellidos" type="text" class="form-control" id="Nombres_y_Apellidos"
                                placeholder="Nombres y Apellidos" oninput="this.value = this.value.toUpperCase()">
                         @auth
-                            @if (Auth::user()->Tipo === 'Contador')
+                            @if (Auth::user()->Tipo === 'Personal_Geredu')
                                 @error('Nombres_y_Apellidos')
                                     <span class="error text-danger">{{ $message }}</span>
                                 @else
@@ -208,7 +208,7 @@
                         @if ($Asignado || $usuario) readonly @endif
                         oninput="if (this.value.trim() !== '') { document.getElementById('Asignado').readOnly = true; document.getElementById('usuario').readOnly = true; } else { document.getElementById('Asignado').readOnly = false; document.getElementById('usuario').readOnly = false; }">
                         @auth
-                            @if (Auth::user()->Tipo === 'Contador')
+                            @if (Auth::user()->Tipo === 'Personal_Geredu')
                                 @error('ruta_imagen')
                                     <span class="error text-danger">{{ $message }}</span>
                                 @else
@@ -223,7 +223,7 @@
                         @if ($ruta_imagen || $Nro_ticket) readonly @endif
                         oninput="if (this.value.trim() !== '') { document.getElementById('ruta_imagen').readOnly = true; document.getElementById('Nro_ticket').readOnly = true; } else { document.getElementById('ruta_imagen').readOnly = false; document.getElementById('Nro_ticket').readOnly = false; }">
                         @auth
-                            @if (Auth::user()->Tipo === 'Contador')
+                            @if (Auth::user()->Tipo === 'Personal_Geredu')
                                 @error('Asignado')
                                     <span class="error text-danger">{{ $message }}</span>
                                 @else
@@ -233,17 +233,17 @@
                         @endauth
                     </div>
                     @auth
-                        @if (Auth::user()->Tipo != 'Contador')
+                        @if (Auth::user()->Tipo != 'Personal_Geredu')
                             <div class="form-group">
-                                <label for="codigo_oficina_Oficina">Oficina</label>
-                                <select wire:model="codigo_oficina_Oficina" class="form-control" id="codigo_oficina_oficina"
+                                <label for="codigo_oficina">Oficina</label>
+                                <select wire:model="codigo_oficina" class="form-control" id="codigo_oficina"
                                     placeholder="codigo_oficina Oficina">
                                     <option value="">Seleccionar Oficina</option>
                                     @foreach ($oficinas as $oficina)
                                         <option value="{{ $oficina->codigo_oficina }}">{{ $oficina->Nombre }}</option>
                                     @endforeach
                                 </select>
-                                @error('codigo_oficina_Oficina')
+                                @error('codigo_oficina')
                                     <span class="error text-danger">{{ $message }}</span>
                                 @else
                                     <small class="form-text text-info">Campo obligatorio.</small>

@@ -12,7 +12,7 @@ class OficinasController extends Controller
     {
         if (Auth::user()->Tipo=== 'Administrador') {
             # code...
-            return view('livewire.oficina.index');
+            return view('livewire.oficinas.index');
         }
         else{
             return redirect()->route('home');

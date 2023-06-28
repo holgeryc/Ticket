@@ -12,14 +12,14 @@ class Oficinas extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    public $selected_id, $keyWord, $nombre, $unidad;
+    public $selected_id, $keyWord, $codigo_oficina, $nombre, $unidad;
     public $selected_oficina = null;
 
     //los mensajes de error segun el validate
     protected $messages = [
-        'codigo.required' => 'El campo codigo es requerido.',
-        'codigo.numeric' => 'El campo codigo debe ser un valor numérico.',
-        'codigo.digits' => 'El campo codigo debe tener exactamente 11 dígitos.',
+        'codigo_oficina.required' => 'El campo codigo es requerido.',
+        'codigo_oficina.numeric' => 'El campo codigo debe ser un valor numérico.',
+        'codigo_oficina.digits' => 'El campo codigo debe tener exactamente 11 dígitos.',
         'nombre.required' => 'El campo de Nombres y Apellidos es requerido',
         'unidad.required' => 'El campo de Cuenta Corriente es requerido',
         'unidad.numeric' => 'El campo de Cuenta Corriente debe ser un valor numérico',

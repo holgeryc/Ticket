@@ -33,7 +33,7 @@ class ConfirmPasswordController extends Controller
      *
      * @return void
      */
-    public function __constcodigo_oficinat()
+    public function __construct()
     {
         $this->middleware('auth');
     }

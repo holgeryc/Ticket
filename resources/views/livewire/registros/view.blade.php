@@ -18,7 +18,7 @@
                                 id="search" placeholder="Buscar Registros">
                         </div>
                         @auth
-                            @if (Auth::user()->Tipo != 'Contador')
+                            @if (Auth::user()->Tipo != 'Personal_Geredu')
                                 <select wire:model="oficinaSeleccionado" class="form-control" style="width: 200px;">
                                     <option value="">Seleccionar oficina</option>
                                     @foreach ($oficinas as $oficina)
@@ -56,7 +56,7 @@
                             </div>
                         @endif
                         @auth
-                            @if (Auth::user()->Tipo === 'Administrador' || Auth::user()->Tipo === 'Contador')
+                            @if (Auth::user()->Tipo === 'Administrador' || Auth::user()->Tipo === 'Personal_Geredu')
                                 <div class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#createDataModal">
                                     <i class="fa fa-plus"></i> Agregar Registros
                                 </div>
@@ -85,7 +85,7 @@
                                     <th>Oficina</th>
                                     <th>Activado</th>
                                     @auth
-                                        @if (Auth::user()->Tipo === 'Administrador' || Auth::user()->Tipo === 'Contador')
+                                        @if (Auth::user()->Tipo === 'Administrador' || Auth::user()->Tipo === 'Personal_Geredu')
                                             <td>Acciones</td>
                                         @endif
                                     @endauth
@@ -127,7 +127,7 @@
                                                     </div>
                                                 </td>
                                             @endif
-                                            @if (Auth::user()->Tipo === 'Contador' && $row->Activado)
+                                            @if (Auth::user()->Tipo === 'Personal_Geredu' && $row->Activado)
                                                 <td width="90">
                                                     <div class="dropdown">
                                                         <a class="btn btn-sm btn-secondary dropdown-toggle" href="#"
@@ -156,7 +156,6 @@
                                 @endforelse
                             </tbody>
                         </table>
-                        <div class="float-end">{{ $registros->links() }}</div>
                     </div>
                 </div>
             </div>

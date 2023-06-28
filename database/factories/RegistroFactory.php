@@ -22,7 +22,7 @@ class RegistroFactory extends Factory
 			'ruta_imagen' => $this->faker->name,
 			'Asignado' => $this->faker->name,
 			'Saldo' => $this->faker->name,
-			'codigo_oficina_Oficina' => $this->faker->name,
+			'codigo_oficina' => $this->faker->name,
 			'Activado' => $this->faker->name,
         ];
     }

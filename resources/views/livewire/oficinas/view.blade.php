@@ -1,5 +1,4 @@
 @section('title', __('Oficinas'))
-
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-12">
@@ -71,7 +70,6 @@
                                 @endforelse
                             </tbody>
                         </table>
-                        <div class="float-end">{{ $oficinas->links() }}</div>
                     </div>
                 </div>
             </div>

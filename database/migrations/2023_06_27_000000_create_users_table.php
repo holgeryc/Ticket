@@ -16,7 +16,7 @@ return new class extends Migration
             $table->text('Nombres_y_Apellidos')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->enum('Tipo',['Centro_computo','Personal_Geredu','Administrador']);
+            $table->enum('Tipo',['Centro_computo','Personal_Geredu','Administrador'])->nullable();
             $table->unsignedBigInteger('codigo_of')->nullable();
             $table->string('password');
             $table->rememberToken();

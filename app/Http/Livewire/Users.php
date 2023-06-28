@@ -14,7 +14,7 @@ class Users extends Component
     use WithPagination;
 
     protected $paginationTheme = 'bootstrap';
-    public $selected_id, $keyWord, $DNI, $Nombres_y_Apellidos, $email, $Tipo, $codigo_oficina_Oficina, $Activado, $password;
+    public $selected_id, $keyWord, $DNI, $Nombres_y_Apellidos, $email, $Tipo, $codigo_of, $password;
     public $NuevaContraseña = false;
 
     protected $messages = [
@@ -35,14 +35,14 @@ class Users extends Component
         $oficinas = Oficina::all();
         $keyWord = '%' . $this->keyWord . '%';
         $usuarios = User::latest()
-            ->leftjoin('oficinas', 'users.codigo_oficina_Oficina', '=', 'oficinas.codigo_oficina')
+            ->leftjoin('oficinas', 'users.codigo_of', '=', 'oficinas.codigo_oficina')
             ->select('users.*', 'oficinas.Nombre')
             ->orWhere('DNI', 'LIKE', $keyWord)
             ->orWhere('Nombres_y_Apellidos', 'LIKE', $keyWord)
             ->orWhere('email', 'LIKE', $keyWord)
             ->orWhere('Tipo', 'LIKE', $keyWord)
             ->orWhere('oficinas.Nombre', 'LIKE', $keyWord)
-            ->orWhere('Activado', 'LIKE', $keyWord)
+            // ->orWhere('Activado', 'LIKE', $keyWord)
             ->paginate(13);
         return view('livewire.users.view', [
             'users' => $usuarios,
@@ -62,8 +62,8 @@ class Users extends Component
         $this->Nombres_y_Apellidos = null;
         $this->email = null;
         $this->Tipo = null;
-        $this->codigo_oficina_Oficina = null;
-        $this->Activado = null;
+        $this->codigo_of = null;
+        // $this->Activado = null;
         $this->password = null;
     }
 
@@ -73,19 +73,18 @@ class Users extends Component
             'DNI' => 'required|numeric|digits:8',
             'Nombres_y_Apellidos' => 'required',
             'email' => 'required|email',
-            'codigo_oficina_Oficina' => 'required_if:Tipo,Contador',
+            'codigo_of' => 'required_if:Tipo,Personal_Geredu',
             'password' => 'required|min:8'
         ]);
         if ($this->Tipo === null) {
-            $this->Tipo = 'Contador';
+            $this->Tipo = 'Personal_Geredu';
         }
         User::create([
             'DNI' => $this->DNI,
             'Nombres_y_Apellidos' => $this->Nombres_y_Apellidos,
             'email' => $this->email,
             'Tipo' => $this->Tipo,
-            'codigo_oficina_Oficina' => $this->codigo_oficina_Oficina,
-            'Activado' => true,
+            'codigo_of' => $this->codigo_of,
             'password' => Hash::make($this->password)
         ]);
 
@@ -101,8 +100,7 @@ class Users extends Component
         $this->Nombres_y_Apellidos = $record->Nombres_y_Apellidos;
         $this->email = $record->email;
         $this->Tipo = $record->Tipo;
-        $this->codigo_oficina_Oficina = $record->codigo_oficina_Oficina;
-        $this->Activado = $record->Activado;
+        $this->codigo_of = $record->codigo_of;
         $this->resetValidation();
     }
 
@@ -111,13 +109,12 @@ class Users extends Component
         $this->validate([
             'DNI' => 'required|numeric|digits:8',
             'email' => 'required',
-            'codigo_oficina_Oficina' => 'required_if:Tipo,Contador',
+            'codigo_of' => 'required_if:Tipo,Personal_Geredu',
             'Tipo' => 'required',
-            'Activado' => 'required',
             'password' => 'required_if:NuevaContraseña,true',
         ]);
-        if ($this->codigo_oficina_Oficina === '') {
-            $this->codigo_oficina_Oficina = null;
+        if ($this->codigo_of === '') {
+            $this->codigo_of = null;
         };
 
         if ($this->DNI && $this->password) {
@@ -126,8 +123,7 @@ class Users extends Component
                 'Nombres_y_Apellidos' => $this->Nombres_y_Apellidos,
                 'email' => $this->email,
                 'Tipo' => $this->Tipo,
-                'codigo_oficina_Oficina' => $this->codigo_oficina_Oficina,
-                'Activado' => $this->Activado,
+                'codigo_of' => $this->codigo_ofi,
                 'password' => Hash::make($this->password)
             ]);
 
@@ -141,8 +137,7 @@ class Users extends Component
                     'Nombres_y_Apellidos' => $this->Nombres_y_Apellidos,
                     'email' => $this->email,
                     'Tipo' => $this->Tipo,
-                    'codigo_oficina_Oficina' => $this->codigo_oficina_Oficina,
-                    'Activado' => $this->Activado,
+                    'codigo_of' => $this->codigo_of,
                 ]);
 
                 $this->resetInput();

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('Descripcion_problema');
             $table->text('ruta_imagen')->nullable();
             $table->boolean('Asignado')->default(True);
-            $table->date('Cod_registro');
+            $table->date('Fecha');
             $table->timestamps();
 
             // $table->foreign('Nro ticket')->references('Nro ticket')->on('tickets');
