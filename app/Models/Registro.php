@@ -13,7 +13,7 @@ class Registro extends Model
 
     protected $table = 'registros';
 
-    protected $fillable = ['Fecha','N°_Voucher','N°_Cheque','C_P','DNI','Nombres_y_Apellidos','Detalle','Entrada','Salida','Saldo','codigo_oficina_Oficina','Activado'];
+    protected $fillable = ['Cod_registro','Nro_ticket','usuario','C_P','DNI','Nombres_y_Apellidos','Descripcion_problema','ruta_imagen','Asignado','Saldo','codigo_oficina_Oficina','Activado'];
 	
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne

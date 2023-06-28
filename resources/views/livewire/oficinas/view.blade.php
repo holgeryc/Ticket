@@ -33,8 +33,8 @@
                                 <tr>
                                     <td>#</td>
                                     <th>codigo_oficina</th>
-                                    <th>Nombre</th>
-                                    <th>Cuenta Corriente</th>
+                                    <th>nombre</th>
+                                    <th>unidad</th>
                                     <td>Acciones</td>
                                 </tr>
                             </thead>
@@ -43,7 +43,7 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $row->codigo_oficina }}</td>
-                                        <td>{{ $row->Nombre }}</td>
+                                        <td>{{ $row->nombre }}</td>
                                         <td>{{ $row->unidad }}</td>
                                         <td width="90">
                                             <div class="dropdown">

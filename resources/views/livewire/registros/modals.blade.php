@@ -11,35 +11,35 @@
             <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <label for="Fecha">Fecha</label>
-                        <input wire:model="Fecha" type="date" class="form-control" id="Fecha"
-                            placeholder="Fecha">
-                        @error('Fecha')
+                        <label for="Cod_registro">Cod_registro</label>
+                        <input wire:model="Cod_registro" type="date" class="form-control" id="Cod_registro"
+                            placeholder="Cod_registro">
+                        @error('Cod_registro')
                             <span class="error text-danger">{{ $message }}</span>
                         @else
                             <small class="form-text text-info">Campo obligatorio.</small>
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="N°_Voucher">N° Voucher</label>
-                        <input wire:model="N°_Voucher" type="text" class="form-control" id="N°_Voucher"
-                            placeholder="N° Voucher" @if ($Salida || $N°_Cheque) readonly @endif
-                            oninput="if (this.value.trim() !== '') { document.getElementById('Salida').readOnly = true; document.getElementById('N°_Cheque').readOnly = true; } else { document.getElementById('Salida').readOnly = false; document.getElementById('N°_Cheque').readOnly = false; }">
-                        @error('N°_Voucher')
+                        <label for="Nro_ticket">Nro ticket</label>
+                        <input wire:model="Nro_ticket" type="text" class="form-control" id="Nro_ticket"
+                            placeholder="Nro ticket" @if ($Asignado || $usuario) readonly @endif
+                            oninput="if (this.value.trim() !== '') { document.getElementById('Asignado').readOnly = true; document.getElementById('usuario').readOnly = true; } else { document.getElementById('Asignado').readOnly = false; document.getElementById('usuario').readOnly = false; }">
+                        @error('Nro_ticket')
                             <span class="error text-danger">{{ $message }}</span>
                         @else
-                            <small class="form-text text-info">Campo obligatorio si N° Cheque esta vacio.</small>
+                            <small class="form-text text-info">Campo obligatorio si Usuario esta vacio.</small>
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="N°_Cheque">N° Cheque</label>
-                        <input wire:model="N°_Cheque" type="text" class="form-control" id="N°_Cheque"
-                            placeholder="N° Cheque" @if ($Entrada || $N°_Voucher) readonly @endif
-                            oninput="if (this.value.trim() !== '') { document.getElementById('Entrada').readOnly = true; document.getElementById('N°_Voucher').readOnly = true; } else { document.getElementById('Entrada').readOnly = false; document.getElementById('N°_Voucher').readOnly = false; }">
-                        @error('N°_Cheque')
+                        <label for="usuario">Usuario</label>
+                        <input wire:model="usuario" type="text" class="form-control" id="usuario"
+                            placeholder="Usuario" @if ($ruta_imagen || $Nro_ticket) readonly @endif
+                            oninput="if (this.value.trim() !== '') { document.getElementById('ruta_imagen').readOnly = true; document.getElementById('Nro_ticket').readOnly = true; } else { document.getElementById('ruta_imagen').readOnly = false; document.getElementById('Nro_ticket').readOnly = false; }">
+                        @error('usuario')
                             <span class="error text-danger">{{ $message }}</span>
                         @else
-                            <small class="form-text text-info">Campo obligatorio si N° Voucher esta vacio.</small>
+                            <small class="form-text text-info">Campo obligatorio si Nro ticket esta vacio.</small>
                         @enderror
                     </div>
                     <div class="form-group">
@@ -62,35 +62,35 @@
                         @endauth
                     </div>
                     <div class="form-group">
-                        <label for="Detalle">Detalle</label>
-                        <input wire:model="Detalle" type="text" class="form-control" id="Detalle"
-                            placeholder="Detalle" oninput="this.value = this.value.toUpperCase()">
-                        @error('Detalle')
+                        <label for="Descripcion_problema">Descripcion_problema</label>
+                        <input wire:model="Descripcion_problema" type="text" class="form-control" id="Descripcion_problema"
+                            placeholder="Descripcion_problema" oninput="this.value = this.value.toUpperCase()">
+                        @error('Descripcion_problema')
                             <span class="error text-danger">{{ $message }}</span>
                         @else
-                            <small class="form-text text-info">Detalle del movimiento economico.</small>
+                            <small class="form-text text-info">Descripcion_problema del movimiento economico.</small>
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="Entrada">Entrada</label>
-                        <input wire:model="Entrada" type="number" class="form-control" id="Entrada" placeholder="Entrada" min="0"
-                        @if ($Salida || $N°_Cheque) readonly @endif
-                        oninput="if (this.value.trim() !== '') { document.getElementById('Salida').readOnly = true; document.getElementById('N°_Cheque').readOnly = true; } else { document.getElementById('Salida').readOnly = false; document.getElementById('N°_Cheque').readOnly = false; }">
-                        @error('Entrada')
+                        <label for="ruta_imagen">ruta_imagen</label>
+                        <input wire:model="ruta_imagen" type="number" class="form-control" id="ruta_imagen" placeholder="ruta_imagen" min="0"
+                        @if ($Asignado || $usuario) readonly @endif
+                        oninput="if (this.value.trim() !== '') { document.getElementById('Asignado').readOnly = true; document.getElementById('usuario').readOnly = true; } else { document.getElementById('Asignado').readOnly = false; document.getElementById('usuario').readOnly = false; }">
+                        @error('ruta_imagen')
                             <span class="error text-danger">{{ $message }}</span>
                         @else
-                            <small class="form-text text-info">Campo obligatorio si Salida esta vacio.</small>
+                            <small class="form-text text-info">Campo obligatorio si Asignado esta vacio.</small>
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="Salida">Salida</label>
-                        <input wire:model="Salida" type="number" class="form-control" id="Salida" placeholder="Salida" min="0"
-                        @if ($Entrada || $N°_Voucher) readonly @endif
-                        oninput="if (this.value.trim() !== '') { document.getElementById('Entrada').readOnly = true; document.getElementById('N°_Voucher').readOnly = true; } else { document.getElementById('Entrada').readOnly = false; document.getElementById('N°_Voucher').readOnly = false; }">
-                        @error('Salida')
+                        <label for="Asignado">Asignado</label>
+                        <input wire:model="Asignado" type="number" class="form-control" id="Asignado" placeholder="Asignado" min="0"
+                        @if ($ruta_imagen || $Nro_ticket) readonly @endif
+                        oninput="if (this.value.trim() !== '') { document.getElementById('ruta_imagen').readOnly = true; document.getElementById('Nro_ticket').readOnly = true; } else { document.getElementById('ruta_imagen').readOnly = false; document.getElementById('Nro_ticket').readOnly = false; }">
+                        @error('Asignado')
                             <span class="error text-danger">{{ $message }}</span>
                         @else
-                            <small class="form-text text-info">Campo obligatorio si Entrada esta vacio.</small>
+                            <small class="form-text text-info">Campo obligatorio si ruta_imagen esta vacio.</small>
                         @enderror
                     </div>
                     @auth
@@ -137,50 +137,47 @@
                 <form>
                     <input type="hidden" wire:model="selected_id">
                     <div class="form-group">
-                        <label for="Fecha">Fecha</label>
-                        <input wire:model="Fecha" type="date" class="form-control" id="Fecha"
-                            placeholder="Fecha">
-                        @error('Fecha')
+                        <label for="Cod_registro">Cod_registro</label>
+                        <input wire:model="Cod_registro" type="date" class="form-control" id="Cod_registro"
+                            placeholder="Cod_registro">
+                        @error('Cod_registro')
                             <span class="error text-danger">{{ $message }}</span>
                         @else
                             <small class="form-text text-info">Campo obligatorio.</small>
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="N°_Voucher">N° Voucher</label>
-                        <input wire:model="N°_Voucher" type="text" class="form-control" id="N°_Voucher"
-                            placeholder="N° Voucher" @if ($Salida || $N°_Cheque) readonly @endif
-                            oninput="if (this.value.trim() !== '') { document.getElementById('Salida').readOnly = true; document.getElementById('N°_Cheque').readOnly = true; } else { document.getElementById('Salida').readOnly = false; document.getElementById('N°_Cheque').readOnly = false; }">
+                        <label for="Nro_ticket">Nro ticket</label>
+                        <input wire:model="Nro_ticket" type="text" class="form-control" id="Nro_ticket"
+                            placeholder="Nro ticket" @if ($Asignado || $usuario) readonly @endif
+                            oninput="if (this.value.trim() !== '') { document.getElementById('Asignado').readOnly = true; document.getElementById('usuario').readOnly = true; } else { document.getElementById('Asignado').readOnly = false; document.getElementById('usuario').readOnly = false; }">
                         @auth
                             @if (Auth::user()->Tipo === 'Contador')
-                                @error('N°_Voucher')
+                                @error('Nro_ticket')
                                     <span class="error text-danger">{{ $message }}</span>
                                 @else
-                                    <small class="form-text text-info">Campo obligatorio si N° Cheque esta vacio.</small>
+                                    <small class="form-text text-info">Campo obligatorio si Usuario esta vacio.</small>
                                 @enderror
                             @endif
                         @endauth
                     </div>
                     <div class="form-group">
-                        <label for="N°_Cheque">N° Cheque</label>
-                        <input wire:model="N°_Cheque" type="text" class="form-control" id="N°_Cheque"
-                            placeholder="N° Cheque" @if ($Entrada || $N°_Voucher) readonly @endif
-                            oninput="if (this.value.trim() !== '') { document.getElementById('Entrada').readOnly = true; document.getElementById('N°_Voucher').readOnly = true; } else { document.getElementById('Entrada').readOnly = false; document.getElementById('N°_Voucher').readOnly = false; }">
+                        <label for="usuario">Usuario</label>
+                        <input wire:model="usuario" type="text" class="form-control" id="usuario"
+                            placeholder="Usuario" @if ($ruta_imagen || $Nro_ticket) readonly @endif
+                            oninput="if (this.value.trim() !== '') { document.getElementById('ruta_imagen').readOnly = true; document.getElementById('Nro_ticket').readOnly = true; } else { document.getElementById('ruta_imagen').readOnly = false; document.getElementById('Nro_ticket').readOnly = false; }">
                         @auth
                             @if (Auth::user()->Tipo === 'Contador')
-                                @error('N°_Cheque')
+                                @error('usuario')
                                     <span class="error text-danger">{{ $message }}</span>
                                 @else
-                                    <small class="form-text text-info">Campo obligatorio si N° Voucher esta vacio.</small>
+                                    <small class="form-text text-info">Campo obligatorio si Nro ticket esta vacio.</small>
                                 @enderror
                             @endif
                         @endauth
                     </div>
-                    <div class="form-group">
-                        <label for="C_P">C P</label>
-                        <input wire:model="C_P" type="number" class="form-control" id="C_P" placeholder="C P" min="0">
-                    </div>
-                    <div class="form-group">
+                    
+                    <!-- <div class="form-group">
                         <label for="Nombres_y_Apellidos">Nombres y Apellidos</label>
                         <input wire:model="Nombres_y_Apellidos" type="text" class="form-control" id="Nombres_y_Apellidos"
                                placeholder="Nombres y Apellidos" oninput="this.value = this.value.toUpperCase()">
@@ -194,43 +191,43 @@
                                 @enderror
                             @endif
                         @endauth
-                    </div>
+                    </div> -->
                     <div class="form-group">
-                        <label for="Detalle">Detalle</label>
-                        <input wire:model="Detalle" type="text" class="form-control" id="Detalle"
-                            placeholder="Detalle" oninput="this.value = this.value.toUpperCase()">
-                        @error('Detalle')
+                        <label for="Descripcion_problema">Descripcion_problema</label>
+                        <input wire:model="Descripcion_problema" type="text" class="form-control" id="Descripcion_problema"
+                            placeholder="Descripcion_problema" oninput="this.value = this.value.toUpperCase()">
+                        @error('Descripcion_problema')
                             <span class="error text-danger">{{ $message }}</span>
                         @else
-                            <small class="form-text text-info">Detalle del movimiento economico.</small>
+                            <small class="form-text text-info">Descripcion_problema del movimiento economico.</small>
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="Entrada">Entrada</label>
-                        <input wire:model="Entrada" type="number" class="form-control" id="Entrada" placeholder="Entrada" min="0"
-                        @if ($Salida || $N°_Cheque) readonly @endif
-                        oninput="if (this.value.trim() !== '') { document.getElementById('Salida').readOnly = true; document.getElementById('N°_Cheque').readOnly = true; } else { document.getElementById('Salida').readOnly = false; document.getElementById('N°_Cheque').readOnly = false; }">
+                        <label for="ruta_imagen">ruta_imagen</label>
+                        <input wire:model="ruta_imagen" type="number" class="form-control" id="ruta_imagen" placeholder="ruta_imagen" min="0"
+                        @if ($Asignado || $usuario) readonly @endif
+                        oninput="if (this.value.trim() !== '') { document.getElementById('Asignado').readOnly = true; document.getElementById('usuario').readOnly = true; } else { document.getElementById('Asignado').readOnly = false; document.getElementById('usuario').readOnly = false; }">
                         @auth
                             @if (Auth::user()->Tipo === 'Contador')
-                                @error('Entrada')
+                                @error('ruta_imagen')
                                     <span class="error text-danger">{{ $message }}</span>
                                 @else
-                                    <small class="form-text text-info">Campo obligatorio si Salida esta vacio.</small>
+                                    <small class="form-text text-info">Campo obligatorio si Asignado esta vacio.</small>
                                 @enderror
                             @endif
                         @endauth
                     </div>
                     <div class="form-group">
-                        <label for="Salida">Salida</label>
-                        <input wire:model="Salida" type="number" class="form-control" id="Salida" placeholder="Salida" min="0"
-                        @if ($Entrada || $N°_Voucher) readonly @endif
-                        oninput="if (this.value.trim() !== '') { document.getElementById('Entrada').readOnly = true; document.getElementById('N°_Voucher').readOnly = true; } else { document.getElementById('Entrada').readOnly = false; document.getElementById('N°_Voucher').readOnly = false; }">
+                        <label for="Asignado">Asignado</label>
+                        <input wire:model="Asignado" type="number" class="form-control" id="Asignado" placeholder="Asignado" min="0"
+                        @if ($ruta_imagen || $Nro_ticket) readonly @endif
+                        oninput="if (this.value.trim() !== '') { document.getElementById('ruta_imagen').readOnly = true; document.getElementById('Nro_ticket').readOnly = true; } else { document.getElementById('ruta_imagen').readOnly = false; document.getElementById('Nro_ticket').readOnly = false; }">
                         @auth
                             @if (Auth::user()->Tipo === 'Contador')
-                                @error('Salida')
+                                @error('Asignado')
                                     <span class="error text-danger">{{ $message }}</span>
                                 @else
-                                    <small class="form-text text-info">Campo obligatorio si Entrada esta vacio.</small>
+                                    <small class="form-text text-info">Campo obligatorio si ruta_imagen esta vacio.</small>
                                 @enderror
                             @endif
                         @endauth

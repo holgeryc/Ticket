@@ -99,14 +99,14 @@
     <table class="tabla-intercalada" style="font-size: 12px; table-layout: fixed; width: 100%; border-collapse: collapse;">
         <thead>
             <tr>
-                <th style="height: 10px; width: 8%; background-color: rgb(111, 192, 224); text-align: center;">Fecha</th>
-                <th style="height: 10px; width: 8%; background-color: rgb(111, 192, 224); text-align: center;">N°_Voucher</th>
-                <th style="height: 10px; width: 8%; background-color: rgb(111, 192, 224); text-align: center;">N°_Cheque</th>
+                <th style="height: 10px; width: 8%; background-color: rgb(111, 192, 224); text-align: center;">Cod_registro</th>
+                <th style="height: 10px; width: 8%; background-color: rgb(111, 192, 224); text-align: center;">Nro_ticket</th>
+                <th style="height: 10px; width: 8%; background-color: rgb(111, 192, 224); text-align: center;">usuario</th>
                 <th style="height: 10px; width: 5%; background-color: rgb(111, 192, 224); text-align: center;">C_P</th>
                 <th style="height: 10px; width: 21%; background-color: rgb(111, 192, 224); text-align: center;">Nombre y apellidos</th>
-                <th style="height: 10px; width: 20%; background-color: rgb(111, 192, 224); text-align: center;">Detalle</th>
-                <th style="height: 10px; width: 10%; background-color: rgb(111, 192, 224); text-align: center;">Entrada</th>
-                <th style="height: 10px; width: 10%; background-color: rgb(111, 192, 224); text-align: center;">Salida</th>
+                <th style="height: 10px; width: 20%; background-color: rgb(111, 192, 224); text-align: center;">Descripcion_problema</th>
+                <th style="height: 10px; width: 10%; background-color: rgb(111, 192, 224); text-align: center;">ruta_imagen</th>
+                <th style="height: 10px; width: 10%; background-color: rgb(111, 192, 224); text-align: center;">Asignado</th>
                 <th style="height: 10px; width: 10%; background-color: rgb(111, 192, 224); text-align: center;">Saldo</th>
                 <!-- Agrega más encabezados según tu estcodigo_oficinatura de tabla -->
             </tr>
@@ -126,14 +126,14 @@
             </tr>
             @foreach ($registros as $registro)
                 <tr>
-                    <td style="height: 10px; text-align: left; padding: 2px;">{{ $registro->FechaFormateada }}</td>
-                    <td style="height: 10px; text-align: left; padding: 2px;">{{ $registro->N°_Voucher }}</td>
-                    <td style="height: 10px; text-align: left; padding: 2px;">{{ $registro->N°_Cheque }}</td>
+                    <td style="height: 10px; text-align: left; padding: 2px;">{{ $registro->Cod_registroFormateada }}</td>
+                    <td style="height: 10px; text-align: left; padding: 2px;">{{ $registro->Nro_ticket }}</td>
+                    <td style="height: 10px; text-align: left; padding: 2px;">{{ $registro->usuario }}</td>
                     <td style="height: 10px; text-align: right; padding: 2px;">{{ $registro->C_P }}</td>
                     <td style="height: 10px; text-align: left; padding: 2px;">{{ $registro->Nombres_y_Apellidos }}</td>
-                    <td style="height: 10px; text-align: left; padding: 2px;">{{ $registro->Detalle }}</td>
-                    <td style="height: 10px; text-align: right; padding: 2px;">{{ $registro->Entrada }}</td>
-                    <td style="height: 10px; text-align: right; padding: 2px;">{{ $registro->Salida }}</td>
+                    <td style="height: 10px; text-align: left; padding: 2px;">{{ $registro->Descripcion_problema }}</td>
+                    <td style="height: 10px; text-align: right; padding: 2px;">{{ $registro->ruta_imagen }}</td>
+                    <td style="height: 10px; text-align: right; padding: 2px;">{{ $registro->Asignado }}</td>
                     <td style="height: 10px; text-align: right; padding: 2px;">{{ $registro->Saldo }}</td>
                     <!-- Agrega más columnas según tu estcodigo_oficinatura de tabla -->
                 </tr>
@@ -152,7 +152,7 @@
                                 <strong style="font-weight: bold;">Oficina de Centro de Cómputo</strong>.
                                 Todos los derechos reservados.
                                 <br>
-                                Fecha y Hora:{{ $currentDateTime }}
+                                Cod_registro y Hora:{{ $currentDateTime }}
                                 <br>
                                 URL:{{ $currentURL }}
                             </span>

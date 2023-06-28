@@ -62,7 +62,7 @@
                                     <select name="codigo_oficina_Oficina" class="form-control">
                                         <option value="">Seleccionar Oficina</option>
                                         @foreach ($oficinas as $oficina)
-                                            <option value="{{ $oficina->codigo_oficina }}">{{ $oficina->Nombre }}</option>
+                                            <option value="{{ $oficina->codigo_oficina }}">{{ $oficina->nombre }}</option>
                                         @endforeach
                                     </select>
                                     @error('codigo_oficina_Oficina')

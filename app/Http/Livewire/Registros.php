@@ -19,23 +19,23 @@ class Registros extends Component
 	use WithPagination;
 
 	protected $paginationTheme = 'bootstrap';
-	public $selected_id, $keyWord, $Fecha, $N°_Voucher, $N°_Cheque, $C_P, $DNI, $Nombres_y_Apellidos, $Detalle, $Entrada, $Salida, $Saldo, $codigo_oficina_Oficina, $Activado, $mesSeleccionado, $anioSeleccionado, $logueado, $oficinaSeleccionado;
+	public $selected_id, $keyWord, $Cod_registro, $Nro_ticket, $usuario, $C_P, $DNI, $Nombres_y_Apellidos, $Descripcion_problema, $ruta_imagen, $Asignado, $Saldo, $codigo_oficina_Oficina, $Activado, $mesSeleccionado, $anioSeleccionado, $logueado, $oficinaSeleccionado;
 
 	protected $messages = [
-		'Fecha.required' => 'El campo Fecha es requerido.',
-		'Fecha.date' => 'El campo Fecha es de tipo Fecha.',
+		'Cod_registro.required' => 'El campo Cod_registro es requerido.',
+		'Cod_registro.date' => 'El campo Cod_registro es de tipo Cod_registro.',
 		'Nombres_y_Apellidos.required' => 'El campo Nombres y Apellidos es requerido.',
 		'Nombres_y_Apellidos.strtoupper' => 'El campo Nombres y Apellidos es con Mayusculas',
-		'Detalle.required' => 'El campo Detalle es requerido.',
-		'Detalle.strtoupper' => 'El campo Deatlle es con Mayusculas.',
-		'N°_Voucher.required_with' => 'El campo N° Voucher es requerido si el campo Entrada esta siendo usado.',
-		'N°_Cheque.required_with' => 'El campo N° Cheque es requerido si el campo Salida esta siendo usado.',
-		'Entrada.required_with' => 'El campo Entrada es requerido si el campo N° Voucher esta siendo usado.',
-		'Entrada.numeric' => 'El campo Entrada es de tipo numerico.',
-		'Entrada.min' => 'El campo Entrada tiene que ser un numero positivo.',
-		'Salida.required_with' => 'El campo Salida es requerido si el campo N° Cheque esta siendo usado.',
-		'Salida.numeric' => 'El campo Salida es de tipo numerico.',
-		'Salida.min' => 'El campo Salida tiene que ser un numero positivo.',
+		'Descripcion_problema.required' => 'El campo Descripcion_problema es requerido.',
+		'Descripcion_problema.strtoupper' => 'El campo Deatlle es con Mayusculas.',
+		'Nro_ticket.required_with' => 'El campo Nro ticket es requerido si el campo ruta_imagen esta siendo usado.',
+		'usuario.required_with' => 'El campo Usuario es requerido si el campo Asignado esta siendo usado.',
+		'ruta_imagen.required_with' => 'El campo ruta_imagen es requerido si el campo Nro ticket esta siendo usado.',
+		'ruta_imagen.numeric' => 'El campo ruta_imagen es de tipo numerico.',
+		'ruta_imagen.min' => 'El campo ruta_imagen tiene que ser un numero positivo.',
+		'Asignado.required_with' => 'El campo Asignado es requerido si el campo Usuario esta siendo usado.',
+		'Asignado.numeric' => 'El campo Asignado es de tipo numerico.',
+		'Asignado.min' => 'El campo Asignado tiene que ser un numero positivo.',
 		'codigo_oficina_Oficina' => 'El campo de Oficina es requerido',
 	];
 
@@ -52,106 +52,106 @@ class Registros extends Component
 		if (Auth::user()->Tipo === "Contador") {
 			$registros = Registro::leftJoin('oficinas', 'registros.codigo_oficina_Oficina', '=', 'oficinas.codigo_oficina')
 				->leftJoin('users', 'users.DNI', '=', 'registros.DNI')
-				->selectRaw('registros.*, oficinas.Nombre, DATE_FORMAT(registros.Fecha, "%d/%m/%Y") AS FechaFormateada')
+				->selectRaw('registros.*, oficinas.Nombre, DATE_FORMAT(registros.Cod_registro, "%d/%m/%Y") AS Cod_registroFormateada')
 				->when($mesSeleccionado || $anioSeleccionado || $logueado, function ($query) use ($logueado, $mesSeleccionado, $anioSeleccionado) {
 					return $query->where(function ($query) use ($mesSeleccionado, $anioSeleccionado, $logueado) {
 						if ($logueado) {
 							$query->whereRaw('registros.codigo_oficina_Oficina LIKE ?', [$logueado]);
 						}
 						if ($mesSeleccionado) {
-							$query->whereRaw('MONTH(Fecha) = ?', [str_pad($mesSeleccionado, 2, '0', STR_PAD_LEFT)]);
+							$query->whereRaw('MONTH(Cod_registro) = ?', [str_pad($mesSeleccionado, 2, '0', STR_PAD_LEFT)]);
 						}
 						if ($anioSeleccionado) {
-							$query->whereRaw('YEAR(Fecha) = ?', [$anioSeleccionado]);
+							$query->whereRaw('YEAR(Cod_registro) = ?', [$anioSeleccionado]);
 						}
 					});
 				})
 				->where(function ($query) use ($keyWord) {
-					$query->Where('N°_Voucher', 'LIKE', $keyWord)
-						->orWhere('N°_Cheque', 'LIKE', $keyWord)
+					$query->Where('Nro_ticket', 'LIKE', $keyWord)
+						->orWhere('usuario', 'LIKE', $keyWord)
 						->orWhere('C_P', 'LIKE', $keyWord)
 						->orWhere('registros.Nombres_y_Apellidos', 'LIKE', $keyWord)
-						->orWhere('Detalle', 'LIKE', $keyWord)
-						->orWhere('Entrada', 'LIKE', $keyWord)
-						->orWhere('Salida', 'LIKE', $keyWord)
+						->orWhere('Descripcion_problema', 'LIKE', $keyWord)
+						->orWhere('ruta_imagen', 'LIKE', $keyWord)
+						->orWhere('Asignado', 'LIKE', $keyWord)
 						->orWhere('Saldo', 'LIKE', $keyWord)
 						->orWhere('registros.Activado', 'LIKE', $keyWord);
 				})
 				->whereRaw('users.Tipo != "Administrador"')
-				->orderBy('Fecha', 'asc')
+				->orderBy('Cod_registro', 'asc')
 				->paginate(13);
 		}
 		if (Auth::user()->Tipo === "Controlador") {
 			$registros = Registro::leftJoin('oficinas', 'registros.codigo_oficina_Oficina', '=', 'oficinas.codigo_oficina')
 				->leftJoin('users', 'users.DNI', '=', 'registros.DNI')
-				->selectRaw('registros.*, oficinas.Nombre, DATE_FORMAT(registros.Fecha, "%d/%m/%Y") AS FechaFormateada')
+				->selectRaw('registros.*, oficinas.Nombre, DATE_FORMAT(registros.Cod_registro, "%d/%m/%Y") AS Cod_registroFormateada')
 				->when($mesSeleccionado || $anioSeleccionado || $oficinaSeleccionado, function ($query) use ($mesSeleccionado, $anioSeleccionado, $oficinaSeleccionado) {
 					return $query->where(function ($query) use ($mesSeleccionado, $anioSeleccionado, $oficinaSeleccionado) {
 						if ($oficinaSeleccionado) {
 							$query->whereRaw('registros.codigo_oficina_Oficina LIKE ?', [$oficinaSeleccionado]);
 						}
 						if ($mesSeleccionado) {
-							$query->whereRaw('MONTH(Fecha) = ?', [str_pad($mesSeleccionado, 2, '0', STR_PAD_LEFT)]);
+							$query->whereRaw('MONTH(Cod_registro) = ?', [str_pad($mesSeleccionado, 2, '0', STR_PAD_LEFT)]);
 						}
 						if ($anioSeleccionado) {
-							$query->whereRaw('YEAR(Fecha) = ?', [$anioSeleccionado]);
+							$query->whereRaw('YEAR(Cod_registro) = ?', [$anioSeleccionado]);
 						}
 					});
 				})
 				->where(function ($query) use ($keyWord) {
-					$query->where('N°_Voucher', 'LIKE', $keyWord)
-						->orWhere('N°_Cheque', 'LIKE', $keyWord)
+					$query->where('Nro_ticket', 'LIKE', $keyWord)
+						->orWhere('usuario', 'LIKE', $keyWord)
 						->orWhere('C_P', 'LIKE', $keyWord)
 						->orWhere('registros.Nombres_y_Apellidos', 'LIKE', $keyWord)
-						->orWhere('Detalle', 'LIKE', $keyWord)
-						->orWhere('Entrada', 'LIKE', $keyWord)
-						->orWhere('Salida', 'LIKE', $keyWord)
+						->orWhere('Descripcion_problema', 'LIKE', $keyWord)
+						->orWhere('ruta_imagen', 'LIKE', $keyWord)
+						->orWhere('Asignado', 'LIKE', $keyWord)
 						->orWhere('Saldo', 'LIKE', $keyWord)
 						->orWhere('oficinas.Nombre', 'LIKE', $keyWord)
 						->orWhere('registros.Activado', 'LIKE', $keyWord);
 				})
 				->whereRaw('users.Tipo != "Administrador"')
-				->orderBy('Fecha', 'asc')
+				->orderBy('Cod_registro', 'asc')
 				->paginate(13);
 		}
 		if (Auth::user()->Tipo === "Administrador") {
 			$registros = Registro::leftJoin('oficinas', 'registros.codigo_oficina_Oficina', '=', 'oficinas.codigo_oficina')
-				->selectRaw('registros.*, oficinas.Nombre, DATE_FORMAT(registros.Fecha, "%d/%m/%Y") AS FechaFormateada')
+				->selectRaw('registros.*, oficinas.Nombre, DATE_FORMAT(registros.Cod_registro, "%d/%m/%Y") AS Cod_registroFormateada')
 				->when($mesSeleccionado || $anioSeleccionado || $oficinaSeleccionado, function ($query) use ($mesSeleccionado, $anioSeleccionado, $oficinaSeleccionado) {
 					return $query->where(function ($query) use ($mesSeleccionado, $anioSeleccionado, $oficinaSeleccionado) {
 						if ($oficinaSeleccionado) {
 							$query->whereRaw('registros.codigo_oficina_Oficina LIKE ?', [$oficinaSeleccionado]);
 						}
 						if ($mesSeleccionado) {
-							$query->whereRaw('MONTH(Fecha) = ?', [str_pad($mesSeleccionado, 2, '0', STR_PAD_LEFT)]);
+							$query->whereRaw('MONTH(Cod_registro) = ?', [str_pad($mesSeleccionado, 2, '0', STR_PAD_LEFT)]);
 						}
 						if ($anioSeleccionado) {
-							$query->whereRaw('YEAR(Fecha) = ?', [$anioSeleccionado]);
+							$query->whereRaw('YEAR(Cod_registro) = ?', [$anioSeleccionado]);
 						}
 					});
 				})
 				->where(function ($query) use ($keyWord) {
-					$query->where('N°_Voucher', 'LIKE', $keyWord)
-						->orWhere('N°_Cheque', 'LIKE', $keyWord)
+					$query->where('Nro_ticket', 'LIKE', $keyWord)
+						->orWhere('usuario', 'LIKE', $keyWord)
 						->orWhere('C_P', 'LIKE', $keyWord)
 						->orWhere('registros.Nombres_y_Apellidos', 'LIKE', $keyWord)
-						->orWhere('Detalle', 'LIKE', $keyWord)
-						->orWhere('Entrada', 'LIKE', $keyWord)
-						->orWhere('Salida', 'LIKE', $keyWord)
+						->orWhere('Descripcion_problema', 'LIKE', $keyWord)
+						->orWhere('ruta_imagen', 'LIKE', $keyWord)
+						->orWhere('Asignado', 'LIKE', $keyWord)
 						->orWhere('Saldo', 'LIKE', $keyWord)
 						->orWhere('oficinas.Nombre', 'LIKE', $keyWord)
 						->orWhere('registros.Activado', 'LIKE', $keyWord);
 				})
-				->orderBy('Fecha', 'asc')
+				->orderBy('Cod_registro', 'asc')
 				->paginate(13);
 		}
-		// Formatear los campos de entrada, salida y saldo en formato de moneda peruana
+		// Formatear los campos de ruta_imagen, Asignado y saldo en formato de moneda peruana
 		$registros->getCollection()->transform(function ($registro) {
-			if ($registro->Entrada != 0) {
-				$registro->Entrada = 'S/. ' . number_format($registro->Entrada, 2);
+			if ($registro->ruta_imagen != 0) {
+				$registro->ruta_imagen = 'S/. ' . number_format($registro->ruta_imagen, 2);
 			}
-			if ($registro->Salida != 0) {
-				$registro->Salida = 'S/. ' . number_format($registro->Salida, 2);
+			if ($registro->Asignado != 0) {
+				$registro->Asignado = 'S/. ' . number_format($registro->Asignado, 2);
 			}
 			if ($registro->Saldo != 0) {
 				$registro->Saldo = 'S/. ' . number_format($registro->Saldo, 2);
@@ -189,105 +189,105 @@ class Registros extends Component
 		if (Auth::user()->Tipo === "Contador") {
 			$registros = Registro::leftJoin('oficinas', 'registros.codigo_oficina_Oficina', '=', 'oficinas.codigo_oficina')
 				->leftJoin('users', 'users.DNI', '=', 'registros.DNI')
-				->selectRaw('registros.*, oficinas.Nombre, DATE_FORMAT(registros.Fecha, "%d/%m/%Y") AS FechaFormateada')
+				->selectRaw('registros.*, oficinas.Nombre, DATE_FORMAT(registros.Cod_registro, "%d/%m/%Y") AS Cod_registroFormateada')
 				->when($mesSeleccionado || $anioSeleccionado || $logueado, function ($query) use ($logueado, $mesSeleccionado, $anioSeleccionado) {
 					return $query->where(function ($query) use ($mesSeleccionado, $anioSeleccionado, $logueado) {
 						if ($logueado) {
 							$query->whereRaw('registros.codigo_oficina_Oficina LIKE ?', [$logueado]);
 						}
 						if ($mesSeleccionado) {
-							$query->whereRaw('MONTH(Fecha) = ?', [str_pad($mesSeleccionado, 2, '0', STR_PAD_LEFT)]);
+							$query->whereRaw('MONTH(Cod_registro) = ?', [str_pad($mesSeleccionado, 2, '0', STR_PAD_LEFT)]);
 						}
 						if ($anioSeleccionado) {
-							$query->whereRaw('YEAR(Fecha) = ?', [$anioSeleccionado]);
+							$query->whereRaw('YEAR(Cod_registro) = ?', [$anioSeleccionado]);
 						}
 					});
 				})
 				->where(function ($query) use ($keyWord) {
-					$query->Where('N°_Voucher', 'LIKE', $keyWord)
-						->orWhere('N°_Cheque', 'LIKE', $keyWord)
+					$query->Where('Nro_ticket', 'LIKE', $keyWord)
+						->orWhere('usuario', 'LIKE', $keyWord)
 						->orWhere('C_P', 'LIKE', $keyWord)
 						->orWhere('registros.Nombres_y_Apellidos', 'LIKE', $keyWord)
-						->orWhere('Detalle', 'LIKE', $keyWord)
-						->orWhere('Entrada', 'LIKE', $keyWord)
-						->orWhere('Salida', 'LIKE', $keyWord)
+						->orWhere('Descripcion_problema', 'LIKE', $keyWord)
+						->orWhere('ruta_imagen', 'LIKE', $keyWord)
+						->orWhere('Asignado', 'LIKE', $keyWord)
 						->orWhere('Saldo', 'LIKE', $keyWord)
 						->orWhere('registros.Activado', 'LIKE', $keyWord);
 				})
 				->whereRaw('users.Tipo != "Administrador"')
-				->orderBy('Fecha', 'asc')
+				->orderBy('Cod_registro', 'asc')
 				->paginate(31);
 		}
 		if (Auth::user()->Tipo === "Controlador") {
 			$registros = Registro::leftJoin('oficinas', 'registros.codigo_oficina_Oficina', '=', 'oficinas.codigo_oficina')
 				->leftJoin('users', 'users.DNI', '=', 'registros.DNI')
-				->selectRaw('registros.*, oficinas.Nombre, DATE_FORMAT(registros.Fecha, "%d/%m/%Y") AS FechaFormateada')
+				->selectRaw('registros.*, oficinas.Nombre, DATE_FORMAT(registros.Cod_registro, "%d/%m/%Y") AS Cod_registroFormateada')
 				->when($mesSeleccionado || $anioSeleccionado || $oficinaSeleccionado, function ($query) use ($mesSeleccionado, $anioSeleccionado, $oficinaSeleccionado) {
 					return $query->where(function ($query) use ($mesSeleccionado, $anioSeleccionado, $oficinaSeleccionado) {
 						if ($oficinaSeleccionado) {
 							$query->whereRaw('registros.codigo_oficina_Oficina LIKE ?', [$oficinaSeleccionado]);
 						}
 						if ($mesSeleccionado) {
-							$query->whereRaw('MONTH(Fecha) = ?', [str_pad($mesSeleccionado, 2, '0', STR_PAD_LEFT)]);
+							$query->whereRaw('MONTH(Cod_registro) = ?', [str_pad($mesSeleccionado, 2, '0', STR_PAD_LEFT)]);
 						}
 						if ($anioSeleccionado) {
-							$query->whereRaw('YEAR(Fecha) = ?', [$anioSeleccionado]);
+							$query->whereRaw('YEAR(Cod_registro) = ?', [$anioSeleccionado]);
 						}
 					});
 				})
 				->where(function ($query) use ($keyWord) {
-					$query->where('N°_Voucher', 'LIKE', $keyWord)
-						->orWhere('N°_Cheque', 'LIKE', $keyWord)
+					$query->where('Nro_ticket', 'LIKE', $keyWord)
+						->orWhere('usuario', 'LIKE', $keyWord)
 						->orWhere('C_P', 'LIKE', $keyWord)
 						->orWhere('registros.Nombres_y_Apellidos', 'LIKE', $keyWord)
-						->orWhere('Detalle', 'LIKE', $keyWord)
-						->orWhere('Entrada', 'LIKE', $keyWord)
-						->orWhere('Salida', 'LIKE', $keyWord)
+						->orWhere('Descripcion_problema', 'LIKE', $keyWord)
+						->orWhere('ruta_imagen', 'LIKE', $keyWord)
+						->orWhere('Asignado', 'LIKE', $keyWord)
 						->orWhere('Saldo', 'LIKE', $keyWord)
 						->orWhere('oficinas.Nombre', 'LIKE', $keyWord)
 						->orWhere('registros.Activado', 'LIKE', $keyWord);
 				})
 				->whereRaw('users.Tipo != "Administrador"')
-				->orderBy('Fecha', 'asc');
+				->orderBy('Cod_registro', 'asc');
 		}
 		if (Auth::user()->Tipo === "Administrador") {
 			$registros = Registro::leftJoin('oficinas', 'registros.codigo_oficina_Oficina', '=', 'oficinas.codigo_oficina')
-				->selectRaw('registros.*, oficinas.Nombre, DATE_FORMAT(registros.Fecha, "%d/%m/%Y") AS FechaFormateada')
+				->selectRaw('registros.*, oficinas.Nombre, DATE_FORMAT(registros.Cod_registro, "%d/%m/%Y") AS Cod_registroFormateada')
 				->when($mesSeleccionado || $anioSeleccionado || $oficinaSeleccionado, function ($query) use ($mesSeleccionado, $anioSeleccionado, $oficinaSeleccionado) {
 					return $query->where(function ($query) use ($mesSeleccionado, $anioSeleccionado, $oficinaSeleccionado) {
 						if ($oficinaSeleccionado) {
 							$query->whereRaw('registros.codigo_oficina_Oficina LIKE ?', [$oficinaSeleccionado]);
 						}
 						if ($mesSeleccionado) {
-							$query->whereRaw('MONTH(Fecha) = ?', [str_pad($mesSeleccionado, 2, '0', STR_PAD_LEFT)]);
+							$query->whereRaw('MONTH(Cod_registro) = ?', [str_pad($mesSeleccionado, 2, '0', STR_PAD_LEFT)]);
 						}
 						if ($anioSeleccionado) {
-							$query->whereRaw('YEAR(Fecha) = ?', [$anioSeleccionado]);
+							$query->whereRaw('YEAR(Cod_registro) = ?', [$anioSeleccionado]);
 						}
 					});
 				})
 				->where(function ($query) use ($keyWord) {
-					$query->where('N°_Voucher', 'LIKE', $keyWord)
-						->orWhere('N°_Cheque', 'LIKE', $keyWord)
+					$query->where('Nro_ticket', 'LIKE', $keyWord)
+						->orWhere('usuario', 'LIKE', $keyWord)
 						->orWhere('C_P', 'LIKE', $keyWord)
 						->orWhere('registros.Nombres_y_Apellidos', 'LIKE', $keyWord)
-						->orWhere('Detalle', 'LIKE', $keyWord)
-						->orWhere('Entrada', 'LIKE', $keyWord)
-						->orWhere('Salida', 'LIKE', $keyWord)
+						->orWhere('Descripcion_problema', 'LIKE', $keyWord)
+						->orWhere('ruta_imagen', 'LIKE', $keyWord)
+						->orWhere('Asignado', 'LIKE', $keyWord)
 						->orWhere('Saldo', 'LIKE', $keyWord)
 						->orWhere('oficinas.Nombre', 'LIKE', $keyWord)
 						->orWhere('registros.Activado', 'LIKE', $keyWord);
 				})
-				->orderBy('Fecha', 'asc')
+				->orderBy('Cod_registro', 'asc')
 				->paginate(31);
 		}
-		// Formatear los campos de entrada, salida y saldo en formato de moneda peruana
+		// Formatear los campos de ruta_imagen, Asignado y saldo en formato de moneda peruana
 		$registros->getCollection()->transform(function ($registro) {
-			if ($registro->Entrada != 0) {
-				$registro->Entrada = 'S/. ' . number_format($registro->Entrada, 2);
+			if ($registro->ruta_imagen != 0) {
+				$registro->ruta_imagen = 'S/. ' . number_format($registro->ruta_imagen, 2);
 			}
-			if ($registro->Salida != 0) {
-				$registro->Salida = 'S/. ' . number_format($registro->Salida, 2);
+			if ($registro->Asignado != 0) {
+				$registro->Asignado = 'S/. ' . number_format($registro->Asignado, 2);
 			}
 			if ($registro->Saldo != 0) {
 				$registro->Saldo = 'S/. ' . number_format($registro->Saldo, 2);
@@ -327,9 +327,9 @@ class Registros extends Component
 		$primerRegistro = $registros->first();
 
 		if ($primerRegistro) {
-			$registroAnterior = Registro::where('Fecha', '<=', $primerRegistro->Fecha)
+			$registroAnterior = Registro::where('Cod_registro', '<=', $primerRegistro->Cod_registro)
 				->where('id', '<', $primerRegistro->id)
-				->orderBy('Fecha', 'desc')
+				->orderBy('Cod_registro', 'desc')
 				->first();
 			if ($registroAnterior) {
 				// El registro anterior está disponible
@@ -347,7 +347,7 @@ class Registros extends Component
 		$saldoAnterior = 'S/. ' . number_format($saldoAnterior, 2);
 		// Establecer la zona horaria
 		date_default_timezone_set('America/Lima'); // Reemplaza 'America/Lima' con la zona horaria correspondiente a tu ubicación
-		// Obtener la fecha y hora actual
+		// Obtener la Cod_registro y hora actual
 		$currentDateTime = date('d/m/Y h:i:s A');
 		//sacamos la url para mostrarla en el reporte
 		$currentURL = \URL::current();
@@ -383,15 +383,15 @@ class Registros extends Component
 
 	private function resetInput()
 	{
-		$this->Fecha = null;
-		$this->N°_Voucher = null;
-		$this->N°_Cheque = null;
+		$this->Cod_registro = null;
+		$this->Nro_ticket = null;
+		$this->usuario = null;
 		$this->C_P = null;
 		$this->DNI = null;
 		$this->Nombres_y_Apellidos = null;
-		$this->Detalle = null;
-		$this->Entrada = null;
-		$this->Salida = null;
+		$this->Descripcion_problema = null;
+		$this->ruta_imagen = null;
+		$this->Asignado = null;
 		$this->Saldo = null;
 		$this->codigo_oficina_Oficina = null;
 		$this->Activado = null;
@@ -401,29 +401,29 @@ class Registros extends Component
 	{
 		if (Auth::user()->Tipo === 'Contador') {
 			$this->validate([
-				'Fecha' => 'required|date',
+				'Cod_registro' => 'required|date',
 				'Nombres_y_Apellidos' => 'required|strtoupper',
-				'Detalle' => 'required|strtoupper',
-				'N°_Voucher' => [new ExclusiveOr('N°_Voucher', 'N°_Cheque'),'required_with:Entrada'],
-    			'N°_Cheque' => [new ExclusiveOr('N°_Voucher', 'N°_Cheque'),'required_with:Salida'],
-				'Entrada' => [new ExclusiveOr('Entrada', 'Salida'),'required_with:N°_Voucher',
+				'Descripcion_problema' => 'required|strtoupper',
+				'Nro_ticket' => [new ExclusiveOr('Nro_ticket', 'usuario'),'required_with:ruta_imagen'],
+    			'usuario' => [new ExclusiveOr('Nro_ticket', 'usuario'),'required_with:Asignado'],
+				'ruta_imagen' => [new ExclusiveOr('ruta_imagen', 'Asignado'),'required_with:Nro_ticket',
 				'numeric',
 				'min:0',],
-				'Salida' => [new ExclusiveOr('Entrada', 'Salida'),'required_with:N°_Cheque',
+				'Asignado' => [new ExclusiveOr('ruta_imagen', 'Asignado'),'required_with:usuario',
 				'numeric',
 				'min:0',],
 			]);
 		}
 		if (Auth::user()->Tipo === 'Administrador') {
 			$this->validate([
-				'Fecha' => 'required|date',
+				'Cod_registro' => 'required|date',
 				'codigo_oficina_Oficina' => 'required',
-				'N°_Voucher' => [new ExclusiveOr('N°_Voucher', 'N°_Cheque'),'required_with:Entrada','nullable'],
-    			'N°_Cheque' => [new ExclusiveOr('N°_Voucher', 'N°_Cheque'),'required_with:Salida', 'nullable'],
-				'Entrada' => [new ExclusiveOr('Entrada', 'Salida'),'required_with:N°_Voucher','nullable',
+				'Nro_ticket' => [new ExclusiveOr('Nro_ticket', 'usuario'),'required_with:ruta_imagen','nullable'],
+    			'usuario' => [new ExclusiveOr('Nro_ticket', 'usuario'),'required_with:Asignado', 'nullable'],
+				'ruta_imagen' => [new ExclusiveOr('ruta_imagen', 'Asignado'),'required_with:Nro_ticket','nullable',
 				'numeric',
 				'min:0',],
-				'Salida' => [new ExclusiveOr('Entrada', 'Salida'),'required_with:N°_Cheque', 'nullable',
+				'Asignado' => [new ExclusiveOr('ruta_imagen', 'Asignado'),'required_with:usuario', 'nullable',
 				'numeric',
 				'min:0',],
 			]);
@@ -434,17 +434,17 @@ class Registros extends Component
 		if ($this->codigo_oficina_Oficina === '') {
 			$this->codigo_oficina_Oficina = null;
 		};
-		if ($this->Entrada === '' || $this->Entrada === 0) {
-			$this->Entrada = null;
+		if ($this->ruta_imagen === '' || $this->ruta_imagen === 0) {
+			$this->ruta_imagen = null;
 		};
-		if ($this->Salida === ''  || $this->Salida === 0) {
-			$this->Salida = null;
+		if ($this->Asignado === ''  || $this->Asignado === 0) {
+			$this->Asignado = null;
 		};
 		if (Auth::user()->Tipo === "Contador") {
 			$this->codigo_oficina_Oficina = Auth::user()->codigo_oficina_Oficina;
 		}
 		$registroAnterior = Registro::where('codigo_oficina_Oficina', $this->codigo_oficina_Oficina)
-			->where('Fecha', '<=', $this->Fecha)
+			->where('Cod_registro', '<=', $this->Cod_registro)
 			->orderByDOficina
 			->first();
 
@@ -453,33 +453,33 @@ class Registros extends Component
 		} else {
 			$saldoAnterior = $registroAnterior->Saldo;
 		}
-		$Saldo = $saldoAnterior + doubleval($this->Entrada) - doubleval($this->Salida);
+		$Saldo = $saldoAnterior + doubleval($this->ruta_imagen) - doubleval($this->Asignado);
 		if (Auth::user()->Tipo == "Contador") {
 			Registro::create([
-				'Fecha' => $this->Fecha,
-				'N°_Voucher' => $this->N°_Voucher,
-				'N°_Cheque' => $this->N°_Cheque,
+				'Cod_registro' => $this->Cod_registro,
+				'Nro_ticket' => $this->Nro_ticket,
+				'usuario' => $this->usuario,
 				'C_P' => $this->C_P,
 				'DNI' => Auth::user()->DNI,
 				'Nombres_y_Apellidos' => $this->Nombres_y_Apellidos,
-				'Detalle' => $this->Detalle,
-				'Entrada' => $this->Entrada,
-				'Salida' => $this->Salida,
+				'Descripcion_problema' => $this->Descripcion_problema,
+				'ruta_imagen' => $this->ruta_imagen,
+				'Asignado' => $this->Asignado,
 				'Saldo' => $Saldo,
 				'codigo_oficina_Oficina' => $this->codigo_oficina_Oficina,
 				'Activado' => true,
 			]);
 		} else {
 			Registro::create([
-				'Fecha' => $this->Fecha,
-				'N°_Voucher' => $this->N°_Voucher,
-				'N°_Cheque' => $this->N°_Cheque,
+				'Cod_registro' => $this->Cod_registro,
+				'Nro_ticket' => $this->Nro_ticket,
+				'usuario' => $this->usuario,
 				'C_P' => $this->C_P,
 				'DNI' => $this->DNI,
 				'Nombres_y_Apellidos' => $this->Nombres_y_Apellidos,
-				'Detalle' => $this->Detalle,
-				'Entrada' => $this->Entrada,
-				'Salida' => $this->Salida,
+				'Descripcion_problema' => $this->Descripcion_problema,
+				'ruta_imagen' => $this->ruta_imagen,
+				'Asignado' => $this->Asignado,
 				'Saldo' => $Saldo,
 				'codigo_oficina_Oficina' => $this->codigo_oficina_Oficina,
 				'Activado' => true,
@@ -497,14 +497,14 @@ class Registros extends Component
 	{
 		$record = Registro::findOrFail($id);
 		$this->selected_id = $id;
-		$this->Fecha = $record->Fecha;
-		$this->N°_Voucher = $record->N°_Voucher;
-		$this->N°_Cheque = $record->N°_Cheque;
+		$this->Cod_registro = $record->Cod_registro;
+		$this->Nro_ticket = $record->Nro_ticket;
+		$this->usuario = $record->usuario;
 		$this->C_P = $record->C_P;
 		$this->Nombres_y_Apellidos = $record->Nombres_y_Apellidos;
-		$this->Detalle = $record->Detalle;
-		$this->Entrada = $record->Entrada;
-		$this->Salida = $record->Salida;
+		$this->Descripcion_problema = $record->Descripcion_problema;
+		$this->ruta_imagen = $record->ruta_imagen;
+		$this->Asignado = $record->Asignado;
 		$this->Saldo = $record->Saldo;
 		if (Auth::user()->Tipo === 'Administrador') {
 			$this->Activado = $record->Activado;
@@ -517,50 +517,50 @@ class Registros extends Component
 	{
 		if (Auth::user()->Tipo === 'Contador') {
 			$this->validate([
-				'Fecha' => 'required|date',
+				'Cod_registro' => 'required|date',
 				'Nombres_y_Apellidos' => 'required',
-				'N°_Voucher' => [new ExclusiveOr('N°_Voucher', 'N°_Cheque'),'required_with:Entrada'],
-    			'N°_Cheque' => [new ExclusiveOr('N°_Voucher', 'N°_Cheque'),'required_with:Salida'],
-				'Entrada' => [new ExclusiveOr('Entrada', 'Salida'),'required_with:N°_Voucher',
+				'Nro_ticket' => [new ExclusiveOr('Nro_ticket', 'usuario'),'required_with:ruta_imagen'],
+    			'usuario' => [new ExclusiveOr('Nro_ticket', 'usuario'),'required_with:Asignado'],
+				'ruta_imagen' => [new ExclusiveOr('ruta_imagen', 'Asignado'),'required_with:Nro_ticket',
 				'numeric',
 				'min:0',],
-				'Salida' => [new ExclusiveOr('Entrada', 'Salida'),'required_with:N°_Cheque',
+				'Asignado' => [new ExclusiveOr('ruta_imagen', 'Asignado'),'required_with:usuario',
 				'numeric',
 				'min:0',],
 			]);
 		}
 		if (Auth::user()->Tipo === 'Administrador') {
 			$this->validate([
-				'Fecha' => 'required|date',
+				'Cod_registro' => 'required|date',
 				'codigo_oficina_Oficina' => 'required',
-				'N°_Voucher' => [new ExclusiveOr('N°_Voucher', 'N°_Cheque'),'required_with:Entrada','nullable'],
-    			'N°_Cheque' => [new ExclusiveOr('N°_Voucher', 'N°_Cheque'),'required_with:Salida', 'nullable'],
-				'Entrada' => [new ExclusiveOr('Entrada', 'Salida'),'required_with:N°_Voucher','nullable',
+				'Nro_ticket' => [new ExclusiveOr('Nro_ticket', 'usuario'),'required_with:ruta_imagen','nullable'],
+    			'usuario' => [new ExclusiveOr('Nro_ticket', 'usuario'),'required_with:Asignado', 'nullable'],
+				'ruta_imagen' => [new ExclusiveOr('ruta_imagen', 'Asignado'),'required_with:Nro_ticket','nullable',
 				'numeric',
 				'min:0',],
-				'Salida' => [new ExclusiveOr('Entrada', 'Salida'),'required_with:N°_Cheque', 'nullable',
+				'Asignado' => [new ExclusiveOr('ruta_imagen', 'Asignado'),'required_with:usuario', 'nullable',
 				'numeric',
 				'min:0',],
 			]);
 		}
-		if ($this->Entrada === '' || $this->Entrada === 0) {
-			$this->Entrada = null;
+		if ($this->ruta_imagen === '' || $this->ruta_imagen === 0) {
+			$this->ruta_imagen = null;
 		};
-		if ($this->Salida === ''  || $this->Salida === 0) {
-			$this->Salida = null;
+		if ($this->Asignado === ''  || $this->Asignado === 0) {
+			$this->Asignado = null;
 		};
 		if($this->C_P===''){
 			$this->C_P=null;
 		}
 		$registroAnterior = Registro::where('codigo_oficina_Oficina', $this->codigo_oficina_Oficina)
 			->where(function ($query) {
-				$query->where('Fecha', '<', $this->Fecha)
+				$query->where('Cod_registro', '<', $this->Cod_registro)
 					->orWhere(function ($query) {
-						$query->where('Fecha', $this->Fecha)
+						$query->where('Cod_registro', $this->Cod_registro)
 							->where('id', '<', $this->selected_id);
 					});
 			})
-			->orderByDesc('Fecha')
+			->orderByDesc('Cod_registro')
 			->orderByDesc('id')
 			->first();
 
@@ -569,35 +569,35 @@ class Registros extends Component
 		} else {
 			$saldoAnterior = $registroAnterior->Saldo;
 		}
-		$Saldo = $saldoAnterior + doubleval($this->Entrada) - doubleval($this->Salida);
+		$Saldo = $saldoAnterior + doubleval($this->ruta_imagen) - doubleval($this->Asignado);
 
 
 		if ($this->selected_id) {
 			$record = Registro::find($this->selected_id);
 			if (Auth::user()->Tipo === 'Administrador') {
 				$record->update([
-					'Fecha' => $this->Fecha,
-					'N°_Voucher' => $this->N°_Voucher,
-					'N°_Cheque' => $this->N°_Cheque,
+					'Cod_registro' => $this->Cod_registro,
+					'Nro_ticket' => $this->Nro_ticket,
+					'usuario' => $this->usuario,
 					'C_P' => $this->C_P,
 					'Nombres_y_Apellidos' => $this->Nombres_y_Apellidos,
-					'Detalle' => $this->Detalle,
-					'Entrada' => $this->Entrada,
-					'Salida' => $this->Salida,
+					'Descripcion_problema' => $this->Descripcion_problema,
+					'ruta_imagen' => $this->ruta_imagen,
+					'Asignado' => $this->Asignado,
 					'Saldo' => $Saldo,
 					'codigo_oficina_Oficina' => $this->codigo_oficina_Oficina,
 					'Activado' => $this->Activado
 				]);
 			} else {
 				$record->update([
-					'Fecha' => $this->Fecha,
-					'N°_Voucher' => $this->N°_Voucher,
-					'N°_Cheque' => $this->N°_Cheque,
+					'Cod_registro' => $this->Cod_registro,
+					'Nro_ticket' => $this->Nro_ticket,
+					'usuario' => $this->usuario,
 					'C_P' => $this->C_P,
 					'Nombres_y_Apellidos' => $this->Nombres_y_Apellidos,
-					'Detalle' => $this->Detalle,
-					'Entrada' => $this->Entrada,
-					'Salida' => $this->Salida,
+					'Descripcion_problema' => $this->Descripcion_problema,
+					'ruta_imagen' => $this->ruta_imagen,
+					'Asignado' => $this->Asignado,
 					'Saldo' => $Saldo,
 					'codigo_oficina_Oficina' => $this->codigo_oficina_Oficina,
 				]);
@@ -613,18 +613,18 @@ class Registros extends Component
 {
     $registrosPosteriores = Registro::where('codigo_oficina_Oficina', $registro->codigo_oficina_Oficina)
         ->where(function ($query) use ($registro) {
-            $query->where('Fecha', '>', $registro->Fecha)
+            $query->where('Cod_registro', '>', $registro->Cod_registro)
                 ->orWhere(function ($query) use ($registro) {
-                    $query->where('Fecha', $registro->Fecha)
+                    $query->where('Cod_registro', $registro->Cod_registro)
                         ->where('id', '>', $registro->id);
                 });
         })
-        ->orderBy('Fecha')
+        ->orderBy('Cod_registro')
         ->orderBy('id')
         ->get();
 
     foreach ($registrosPosteriores as $registroPosterior) {
-        $saldo = $saldoAnterior + doubleval($registroPosterior->Entrada) - doubleval($registroPosterior->Salida);
+        $saldo = $saldoAnterior + doubleval($registroPosterior->ruta_imagen) - doubleval($registroPosterior->Asignado);
 
         $registroPosterior->update([
             'Saldo' => $saldo,
@@ -642,9 +642,9 @@ class Registros extends Component
 			//si el registro exite
 			if ($Registro) {
 				//sacamos el registro anterior
-				$registroAnterior = Registro::where('Fecha', '<=', $Registro->Fecha)
+				$registroAnterior = Registro::where('Cod_registro', '<=', $Registro->Cod_registro)
 					->where('id', '<', $Registro->id)
-					->orderBy('Fecha', 'desc')
+					->orderBy('Cod_registro', 'desc')
 					->first();
 				//borramos el registro seleccionado
 				Registro::where('id', $id)->delete();

@@ -13,14 +13,14 @@ class RegistroFactory extends Factory
     public function definition()
     {
         return [
-			'Fecha' => $this->faker->name,
-			'N°_Voucher' => $this->faker->name,
-			'N°_Cheque' => $this->faker->name,
+			'Cod_registro' => $this->faker->name,
+			'Nro_ticket' => $this->faker->name,
+			'usuario' => $this->faker->name,
 			'C_P' => $this->faker->name,
 			'DNI' => $this->faker->name,
-			'Detalle' => $this->faker->name,
-			'Entrada' => $this->faker->name,
-			'Salida' => $this->faker->name,
+			'Descripcion_problema' => $this->faker->name,
+			'ruta_imagen' => $this->faker->name,
+			'Asignado' => $this->faker->name,
 			'Saldo' => $this->faker->name,
 			'codigo_oficina_Oficina' => $this->faker->name,
 			'Activado' => $this->faker->name,

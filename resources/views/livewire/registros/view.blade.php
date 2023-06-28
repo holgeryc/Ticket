@@ -73,14 +73,14 @@
                             <thead class="thead">
                                 <tr>
                                     <td>#</td>
-                                    <th>Fecha</th>
-                                    <th>N° Voucher</th>
-                                    <th>N° Cheque</th>
+                                    <th>Cod_registro</th>
+                                    <th>Nro ticket</th>
+                                    <th>Usuario</th>
                                     <th>C_P</th>
                                     <th>Nombres y Apellidos</th>
-                                    <th>Detalle</th>
-                                    <th>Entrada</th>
-                                    <th>Salida</th>
+                                    <th>Descripcion_problema</th>
+                                    <th>ruta_imagen</th>
+                                    <th>Asignado</th>
                                     <th>Saldo</th>
                                     <th>Oficina</th>
                                     <th>Activado</th>
@@ -95,14 +95,14 @@
                                 @forelse($registros as $row)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $row->FechaFormateada }}</td>
-                                        <td>{{ $row->N°_Voucher }}</td>
-                                        <td>{{ $row->N°_Cheque }}</td>
+                                        <td>{{ $row->Cod_registroFormateada }}</td>
+                                        <td>{{ $row->Nro_ticket }}</td>
+                                        <td>{{ $row->usuario }}</td>
                                         <td>{{ $row->C_P }}</td>
                                         <td>{{ $row->Nombres_y_Apellidos }}</td>
-                                        <td>{{ $row->Detalle }}</td>
-                                        <td>{{ $row->Entrada }}</td>
-                                        <td>{{ $row->Salida }}</td>
+                                        <td>{{ $row->Descripcion_problema }}</td>
+                                        <td>{{ $row->ruta_imagen }}</td>
+                                        <td>{{ $row->Asignado }}</td>
                                         <td>{{ $row->Saldo }}</td>
                                         <td>{{ $row->Nombre }}</td>
                                         <td>{{ $row->Activado }}</td>

@@ -10,7 +10,7 @@
 
     <title>
         @hasSection('title')
-            @yield('title') | {{ 'ISSICO' }}
+            @yield('title') | {{ 'SATU' }}
         @endif
     </title>
 
@@ -60,7 +60,7 @@
                                             Usuarios</a>
                                     </li>
                                 @endif
-                                @if (Auth::user()->Tipo === 'Controlador' || Auth::user()->Tipo === 'Contador')
+                                @if (Auth::user()->Tipo === 'Centro_computo' || Auth::user()->Tipo === 'Centro_computo')
                                     <li class="nav-item">
                                         <a href="{{ url('/registros') }}" class="nav-link"><i class="fa-fw fas fa-users"></i>
                                             Registros</a>
