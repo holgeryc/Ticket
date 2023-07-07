@@ -70,6 +70,16 @@
                                             Registros</a>
                                     </li>
                                 @endif
+                                @if (Auth::user()->Tipo === 'Personal_Geredu' || Auth::user()->Tipo === 'Personal_Geredu')
+                                    <li class="nav-item">
+                                        <a href="{{ url('/registros') }}" class="nav-link"><i class="fa-fw fas fa-users" aria-hidden="true"></i>
+                                            Registros</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ url('/ugeles') }}" class="nav-link"><i class="fa-fw fas fa-users"></i>
+                                            ugeles</a>
+                                    </li>
+                                @endif
                             @endauth
 
                         </ul>

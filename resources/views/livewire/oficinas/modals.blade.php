@@ -31,10 +31,10 @@
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="unidad"></label>
-                        <input wire:model="unidad" type="text" class="form-control" id="unidad"
-                            placeholder="unidad">
-                        @error('unidad')
+                        <label for="ugel"></label>
+                        <input wire:model="ugel" type="text" class="form-control" id="ugel"
+                            placeholder="ugel">
+                        @error('ugel')
                             <span class="error text-danger">{{ $message }}</span>
                         @else
                             <small class="form-text text-info">Campo obligatorio y numerico.</small>
@@ -84,10 +84,10 @@
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="unidad"></label>
-                        <input wire:model="unidad" type="text" class="form-control" id="unidad"
-                            placeholder="unidad">
-                        @error('unidad')
+                        <label for="ugel"></label>
+                        <input wire:model="ugel" type="text" class="form-control" id="ugel"
+                            placeholder="ugel">
+                        @error('ugel')
                             <span class="error text-danger">{{ $message }}</span>
                         @else
                             <small class="form-text text-info">Campo obligatorio y numerico.</small>

@@ -22,7 +22,7 @@
                                 <select wire:model="oficinaSeleccionado" class="form-control" style="width: 200px;">
                                     <option value="">Seleccionar oficina</option>
                                     @foreach ($oficinas as $oficina)
-                                        <option value="{{ $oficina->codigo_oficina }}">{{ $oficina->Nombre }}</option>
+                                        <option value="{{ $oficina->codigo_oficina }}">{{ $oficina->nombre }}</option>
                                     @endforeach
                                 </select>
                             @endif
@@ -74,15 +74,11 @@
                                 <tr>
                                     <td>#</td>
                                     <th>Cod_registro</th>
-                                    <th>Nro ticket</th>
+                                    <th>Nro Ticket</th>
                                     <th>Usuario</th>
-                                    <th>C_P</th>
-                                    <th>Nombres y Apellidos</th>
+                                    <th>Oficina</th>
                                     <th>Descripcion_problema</th>
                                     <th>ruta_imagen</th>
-                                    <th>Asignado</th>
-                                    <th>Saldo</th>
-                                    <th>Oficina</th>
                                     <th>Activado</th>
                                     @auth
                                         @if (Auth::user()->Tipo === 'Administrador' || Auth::user()->Tipo === 'Personal_Geredu')
@@ -95,16 +91,12 @@
                                 @forelse($registros as $row)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $row->Cod_registroFormateada }}</td>
-                                        <td>{{ $row->Nro_ticket }}</td>
-                                        <td>{{ $row->usuario }}</td>
-                                        <td>{{ $row->C_P }}</td>
-                                        <td>{{ $row->Nombres_y_Apellidos }}</td>
+                                        <td>{{ $row->Cod_registro }}</td>
+                                        <td>{{ $row->Ticket }}</td>
+                                        <td>{{ $row->Usuario }}</td>
+                                        <td>{{ $row->Oficina }}</td>
                                         <td>{{ $row->Descripcion_problema }}</td>
                                         <td>{{ $row->ruta_imagen }}</td>
-                                        <td>{{ $row->Asignado }}</td>
-                                        <td>{{ $row->Saldo }}</td>
-                                        <td>{{ $row->Nombre }}</td>
                                         <td>{{ $row->Activado }}</td>
                                         @auth
                                             @if (Auth::user()->Tipo === 'Administrador')

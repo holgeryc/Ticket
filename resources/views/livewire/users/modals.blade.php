@@ -44,7 +44,7 @@
                         <select wire:model="Tipo" class="form-control" id="Tipo" placeholder="Tipo">
                             <option value="">Seleccion Tipo</option>
                             <option value="Personal_Geredu">Personal_Geredu</option>
-                            <option value="Controlador">Controlador</option>
+                            <option value="Centro_computo">Centro_computo</option>
                             <option value="Administrador">Administrador</option>
                         </select>
                         @error('Tipo')
@@ -62,7 +62,7 @@
                             @enderror>
                             <option value="">Seleccionar Oficina</option>
                             @foreach ($oficinas as $oficina)
-                                <option value="{{ $oficina->codigo_oficina }}">{{ $oficina->Nombre }}</option>
+                                <option value="{{ $oficina->codigo_oficina }}">{{ $oficina->nombre }}</option>
                             @endforeach
                         </select>
                         @error('codigo_oficina')
@@ -136,7 +136,7 @@
                         <select wire:model="Tipo" class="form-control" id="Tipo" placeholder="Tipo">
                             <option value="">Seleccion Tipo</option>
                             <option value="Personal_Geredu">Personal_Geredu</option>
-                            <option value="Controlador">Controlador</option>
+                            <option value="Centro_computo">Centro_computo</option>
                             <option value="Administrador">Administrador</option>
                         </select>
                         @error('Tipo')

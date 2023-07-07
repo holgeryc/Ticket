@@ -15,7 +15,7 @@ class Oficina extends Model
     
     protected $primaryKey='codigo_oficina';
 
-    protected $fillable = ['codigo_oficina','nombre','unidad'];
+    protected $fillable = ['codigo_oficina','nombre','ugel'];
 	
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

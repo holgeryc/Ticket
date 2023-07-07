@@ -19,7 +19,7 @@ class Registros extends Component
 	use WithPagination;
 
 	protected $paginationTheme = 'bootstrap';
-	public $selected_id, $keyWord, $Cod_registro, $Nro_ticket, $usuario, $Descripcion_problema, $ruta_imagen, $Asignado, $codigo_oficina, $mesSeleccionado, $anioSeleccionado, $logueado, $oficinaSeleccionado;
+	public $selected_id, $keyWord, $Cod_registro, $Ticket, $Oficina, $Usuario, $Descripcion_problema, $Ruta_imagen, $codigo_oficina, $mesSeleccionado, $anioSeleccionado, $logueado, $oficinaSeleccionado;
 
 	protected $messages = [
 		'Cod_registro.required' => 'El campo Cod_registro es requerido.',
@@ -28,9 +28,9 @@ class Registros extends Component
 		// 'Nombres_y_Apellidos.strtoupper' => 'El campo Nombres y Apellidos es con Mayusculas',
 		'Descripcion_problema.required' => 'El campo Descripcion_problema es requerido.',
 		'Descripcion_problema.strtoupper' => 'El campo Deatlle es con Mayusculas.',
-		'Nro_ticket.required_with' => 'El campo Nro ticket es requerido si el campo ruta_imagen esta siendo usado.',
+		'Ticket.required_with' => 'El campo Ticket es requerido si el campo ruta_imagen esta siendo usado.',
 		'usuario.required_with' => 'El campo Usuario es requerido si el campo Asignado esta siendo usado.',
-		'ruta_imagen.required_with' => 'El campo ruta_imagen es requerido si el campo Nro ticket esta siendo usado.',
+		'ruta_imagen.required_with' => 'El campo ruta_imagen es requerido si el campo Ticket esta siendo usado.',
 		'ruta_imagen.numeric' => 'El campo ruta_imagen es de tipo numerico.',
 		'ruta_imagen.min' => 'El campo ruta_imagen tiene que ser un numero positivo.',
 		'Asignado.required_with' => 'El campo Asignado es requerido si el campo Usuario esta siendo usado.',
@@ -50,8 +50,8 @@ class Registros extends Component
 		$logueado = Auth::user()->codigo_oficina;
 		$keyWord = '%' . $this->keyWord . '%';
 		if (Auth::user()->Tipo === "Personal_Geredu") {
-			$registros = Registro::leftJoin('oficinas', 'registros.codigo_oficina', '=', 'oficinas.codigo_oficina')
-				->leftJoin('users', 'users.DNI', '=', 'registros.DNI')
+			$registros = Registro::leftJoin('oficinas', 'registros.Oficina', '=', 'oficinas.codigo_oficina')
+				->leftJoin('users', 'users.DNI', '=', 'registros.Usuario')
 				->selectRaw('registros.*, oficinas.Nombre, DATE_FORMAT(registros.Cod_registro, "%d/%m/%Y") AS Cod_registroFormateada')
 				->when($mesSeleccionado || $anioSeleccionado || $logueado, function ($query) use ($logueado, $mesSeleccionado, $anioSeleccionado) {
 					return $query->where(function ($query) use ($mesSeleccionado, $anioSeleccionado, $logueado) {
@@ -67,25 +67,24 @@ class Registros extends Component
 					});
 				})
 				->where(function ($query) use ($keyWord) {
-					$query->Where('Nro_ticket', 'LIKE', $keyWord)
-						->orWhere('usuario', 'LIKE', $keyWord)
-						->orWhere('registros.Nombres_y_Apellidos', 'LIKE', $keyWord)
+					$query->Where('Ticket', 'LIKE', $keyWord)
+						->orWhere('Oficina', 'LIKE', $keyWord)
+						->orWhere('Usuario', 'LIKE', $keyWord)
 						->orWhere('Descripcion_problema', 'LIKE', $keyWord)
-						->orWhere('ruta_imagen', 'LIKE', $keyWord)
-						->orWhere('Asignado', 'LIKE', $keyWord);
+						->orWhere('ruta_imagen', 'LIKE', $keyWord);
 				})
 				->whereRaw('users.Tipo != "Administrador"')
 				->orderBy('Cod_registro', 'asc')
 				->paginate(13);
 		}
-		if (Auth::user()->Tipo === "Controlador") {
-			$registros = Registro::leftJoin('oficinas', 'registros.codigo_oficina', '=', 'oficinas.codigo_oficina')
-				->leftJoin('users', 'users.DNI', '=', 'registros.DNI')
-				->selectRaw('registros.*, oficinas.Nombre, DATE_FORMAT(registros.Cod_registro, "%d/%m/%Y") AS Cod_registroFormateada')
+		if (Auth::user()->Tipo === "Centro_computo") {
+			$registros = Registro::leftJoin('oficinas', 'registros.Oficina', '=', 'oficinas.codigo_oficina')
+				->leftJoin('users', 'users.DNI', '=', 'registros.usuario')
+				->selectRaw('registros.*, oficinas.nombre, DATE_FORMAT(registros.Cod_registro, "%d/%m/%Y") AS Cod_registroFormateada')
 				->when($mesSeleccionado || $anioSeleccionado || $oficinaSeleccionado, function ($query) use ($mesSeleccionado, $anioSeleccionado, $oficinaSeleccionado) {
 					return $query->where(function ($query) use ($mesSeleccionado, $anioSeleccionado, $oficinaSeleccionado) {
 						if ($oficinaSeleccionado) {
-							$query->whereRaw('registros.codigo_oficina LIKE ?', [$oficinaSeleccionado]);
+							$query->whereRaw('registros.Oficina LIKE ?', [$oficinaSeleccionado]);
 						}
 						if ($mesSeleccionado) {
 							$query->whereRaw('MONTH(Cod_registro) = ?', [str_pad($mesSeleccionado, 2, '0', STR_PAD_LEFT)]);
@@ -96,20 +95,19 @@ class Registros extends Component
 					});
 				})
 				->where(function ($query) use ($keyWord) {
-					$query->where('Nro_ticket', 'LIKE', $keyWord)
-						->orWhere('usuario', 'LIKE', $keyWord)
-						->orWhere('registros.Nombres_y_Apellidos', 'LIKE', $keyWord)
+					$query->where('Ticket', 'LIKE', $keyWord)
+						->orWhere('Usuario', 'LIKE', $keyWord)
+						->orWhere('registros.usuario', 'LIKE', $keyWord)
 						->orWhere('Descripcion_problema', 'LIKE', $keyWord)
 						->orWhere('ruta_imagen', 'LIKE', $keyWord)
-						->orWhere('Asignado', 'LIKE', $keyWord)
-						->orWhere('oficinas.Nombre', 'LIKE', $keyWord);
+						->orWhere('oficinas.nombre', 'LIKE', $keyWord);
 				})
 				->whereRaw('users.Tipo != "Administrador"')
 				->orderBy('Cod_registro', 'asc')
 				->paginate(13);
 		}
 		if (Auth::user()->Tipo === "Administrador") {
-			$registros = Registro::leftJoin('oficinas', 'registros.codigo_oficina', '=', 'oficinas.codigo_oficina')
+			$registros = Registro::leftJoin('oficinas', 'registros.Oficina', '=', 'oficinas.codigo_oficina')
 				->selectRaw('registros.*, oficinas.Nombre, DATE_FORMAT(registros.Cod_registro, "%d/%m/%Y") AS Cod_registroFormateada')
 				->when($mesSeleccionado || $anioSeleccionado || $oficinaSeleccionado, function ($query) use ($mesSeleccionado, $anioSeleccionado, $oficinaSeleccionado) {
 					return $query->where(function ($query) use ($mesSeleccionado, $anioSeleccionado, $oficinaSeleccionado) {
@@ -125,16 +123,14 @@ class Registros extends Component
 					});
 				})
 				->where(function ($query) use ($keyWord) {
-					$query->where('Nro_ticket', 'LIKE', $keyWord)
+					$query->where('Ticket', 'LIKE', $keyWord)
 						->orWhere('usuario', 'LIKE', $keyWord)
-						->orWhere('registros.Nombres_y_Apellidos', 'LIKE', $keyWord)
 						->orWhere('Descripcion_problema', 'LIKE', $keyWord)
 						->orWhere('ruta_imagen', 'LIKE', $keyWord)
-						->orWhere('Asignado', 'LIKE', $keyWord)
 						->orWhere('oficinas.Nombre', 'LIKE', $keyWord);
-				});
-				// ->orderBy('Cod_registro', 'asc')
-				// ->paginate(13);
+				})
+				->orderBy('Cod_registro', 'asc')
+				->paginate(13);
 		}
 		// Formatear los campos de ruta_imagen, Asignado y saldo en formato de moneda peruana
 		// $registros->getCollection()->transform(function ($registro) {
@@ -195,7 +191,7 @@ class Registros extends Component
 					});
 				})
 				->where(function ($query) use ($keyWord) {
-					$query->Where('Nro_ticket', 'LIKE', $keyWord)
+					$query->Where('Ticket', 'LIKE', $keyWord)
 						->orWhere('usuario', 'LIKE', $keyWord)
 						->orWhere('registros.Nombres_y_Apellidos', 'LIKE', $keyWord)
 						->orWhere('Descripcion_problema', 'LIKE', $keyWord)
@@ -206,7 +202,7 @@ class Registros extends Component
 				->orderBy('Cod_registro', 'asc')
 				->paginate(31);
 		}
-		if (Auth::user()->Tipo === "Controlador") {
+		if (Auth::user()->Tipo === "Centro_computo") {
 			$registros = Registro::leftJoin('oficinas', 'registros.codigo_oficina', '=', 'oficinas.codigo_oficina')
 				->leftJoin('users', 'users.DNI', '=', 'registros.DNI')
 				->selectRaw('registros.*, oficinas.Nombre, DATE_FORMAT(registros.Cod_registro, "%d/%m/%Y") AS Cod_registroFormateada')
@@ -224,7 +220,7 @@ class Registros extends Component
 					});
 				})
 				->where(function ($query) use ($keyWord) {
-					$query->where('Nro_ticket', 'LIKE', $keyWord)
+					$query->where('Ticket', 'LIKE', $keyWord)
 						->orWhere('usuario', 'LIKE', $keyWord)
 						->orWhere('registros.Nombres_y_Apellidos', 'LIKE', $keyWord)
 						->orWhere('Descripcion_problema', 'LIKE', $keyWord)
@@ -252,7 +248,7 @@ class Registros extends Component
 					});
 				})
 				->where(function ($query) use ($keyWord) {
-					$query->where('Nro_ticket', 'LIKE', $keyWord)
+					$query->where('Ticket', 'LIKE', $keyWord)
 						->orWhere('usuario', 'LIKE', $keyWord)
 						->orWhere('registros.Nombres_y_Apellidos', 'LIKE', $keyWord)
 						->orWhere('Descripcion_problema', 'LIKE', $keyWord)
@@ -303,7 +299,7 @@ class Registros extends Component
 		}
 		//cuenta bancaria del oficina sleccioando
 		if ($oficina) {
-			$oficinaCuentaCorriente = $oficina->unidad;
+			$oficinaCuentaCorriente = $oficina->ugel;
 		}
 		//saldo anterior
 		$primerRegistro = $registros->first();
@@ -366,124 +362,84 @@ class Registros extends Component
 	private function resetInput()
 	{
 		$this->Cod_registro = null;
-		$this->Nro_ticket = null;
-		$this->usuario = null;
+		$this->Ticket = null;
+		$this->Usuario = null;
 		$this->DNI = null;
-		$this->Nombres_y_Apellidos = null;
 		$this->Descripcion_problema = null;
-		$this->ruta_imagen = null;
-		$this->Asignado = null;
-		$this->codigo_oficina = null;
+		$this->Ruta_imagen = null;
+		$this->Oficina = null;
 	}
 
 	public function store()
 	{
 		if (Auth::user()->Tipo === 'Personal_Geredu') {
 			$this->validate([
-				'Cod_registro' => 'required|date',
-				'Nombres_y_Apellidos' => 'required|strtoupper',
-				'Descripcion_problema' => 'required|strtoupper',
-				'Nro_ticket' => [new ExclusiveOr('Nro_ticket', 'usuario'),'required_with:ruta_imagen'],
-    			'usuario' => [new ExclusiveOr('Nro_ticket', 'usuario'),'required_with:Asignado'],
-				'ruta_imagen' => [new ExclusiveOr('ruta_imagen', 'Asignado'),'required_with:Nro_ticket',
-				'numeric',
-				'min:0',],
-				'Asignado' => [new ExclusiveOr('ruta_imagen', 'Asignado'),'required_with:usuario',
-				'numeric',
-				'min:0',],
+				'Cod_registro' => 'required',
+				'Descripcion_problema' => 'required',
+				'Ticket' => 'required',
+    			'Usuario' => 'required',
+				'Ruta_imagen' => 'required',
 			]);
 		}
 		if (Auth::user()->Tipo === 'Administrador') {
 			$this->validate([
-				'Cod_registro' => 'required|date',
-				'codigo_oficina' => 'required',
-				'Nro_ticket' => [new ExclusiveOr('Nro_ticket', 'usuario'),'required_with:ruta_imagen','nullable'],
-    			'usuario' => [new ExclusiveOr('Nro_ticket', 'usuario'),'required_with:Asignado', 'nullable'],
-				'ruta_imagen' => [new ExclusiveOr('ruta_imagen', 'Asignado'),'required_with:Nro_ticket','nullable',
-				'numeric',
-				'min:0',],
-				'Asignado' => [new ExclusiveOr('ruta_imagen', 'Asignado'),'required_with:usuario', 'nullable',
-				'numeric',
-				'min:0',],
+				'Cod_registro' => 'required',
+				'Descripcion_problema' => 'required',
+				'Ticket' => 'required',
+    			'Usuario' => 'required',
+				'Ruta_imagen' => 'required',
 			]);
 		}
 		
-		if ($this->codigo_oficina === '') {
-			$this->codigo_oficina = null;
+		if ($this->Oficina === '') {
+			$this->Oficina = null;
 		};
-		if ($this->ruta_imagen === '' || $this->ruta_imagen === 0) {
-			$this->ruta_imagen = null;
-		};
-		if ($this->Asignado === ''  || $this->Asignado === 0) {
-			$this->Asignado = null;
+		if ($this->Ruta_imagen === '' || $this->Ruta_imagen === 0) {
+			$this->Ruta_imagen = null;
 		};
 		if (Auth::user()->Tipo === "Personal_Geredu") {
-			$this->codigo_oficina = Auth::user()->codigo_oficina;
+			$this->Oficina = Auth::user()->codigo_of;
 		}
-		$registroAnterior = Registro::where('codigo_oficina', $this->codigo_oficina)
-			->where('Cod_registro', '<=', $this->Cod_registro)
-			->orderByDOficina
-			->first();
-
-		// if (!$registroAnterior) {
-		// 	$saldoAnterior = 0;
-		// } else {
-		// 	$saldoAnterior = $registroAnterior->Saldo;
-		// }
-		// $Saldo = $saldoAnterior + doubleval($this->ruta_imagen) - doubleval($this->Asignado);
-		// if (Auth::user()->Tipo == "Personal_Geredu") {
-		// 	Registro::create([
-		// 		'Cod_registro' => $this->Cod_registro,
-		// 		'Nro_ticket' => $this->Nro_ticket,
-		// 		'usuario' => $this->usuario,
-		// 		'DNI' => Auth::user()->DNI,
-		// 		'Nombres_y_Apellidos' => $this->Nombres_y_Apellidos,
-		// 		'Descripcion_problema' => $this->Descripcion_problema,
-		// 		'ruta_imagen' => $this->ruta_imagen,
-		// 		'Asignado' => $this->Asignado,
-		// 		'Saldo' => $Saldo,
-		// 		'codigo_oficina' => $this->codigo_oficina,
-		// 		'Activado' => true,
-		// 	]);
-		// } else {
-		// 	Registro::create([
-		// 		'Cod_registro' => $this->Cod_registro,
-		// 		'Nro_ticket' => $this->Nro_ticket,
-		// 		'usuario' => $this->usuario,
-		// 		'C_P' => $this->C_P,
-		// 		'DNI' => $this->DNI,
-		// 		'Nombres_y_Apellidos' => $this->Nombres_y_Apellidos,
-		// 		'Descripcion_problema' => $this->Descripcion_problema,
-		// 		'ruta_imagen' => $this->ruta_imagen,
-		// 		'Asignado' => $this->Asignado,
-		// 		'Saldo' => $Saldo,
-		// 		'codigo_oficina' => $this->codigo_oficina,
-		// 		'Activado' => true,
-		// 	]);
-		// }
-
+		if (Auth::user()->Tipo == "Personal_Geredu") {
+			Registro::create([
+				'Cod_registro' => $this->Cod_registro,
+				'Ticket' => $this->Ticket,
+				'Oficina' => $this->Oficina,
+				'Usuario' => Auth::user()->DNI,
+				'Descripcion_problema' => $this->Descripcion_problema,
+				'Ruta_imagen' => $this->Ruta_imagen,
+				'Activado' => true,
+			]);
+		} else {
+			Registro::create([
+				'Cod_registro' => $this->Cod_registro,
+				'Ticket' => $this->Ticket,
+				'Oficina' => $this->Oficina,
+				'Usuario' => Auth::user()->DNI,
+				'Descripcion_problema' => $this->Descripcion_problema,
+				'Ruta_imagen' => $this->Ruta_imagen,
+				'Activado' => true,
+			]);
 		
-
 		$this->resetInput();
 		$this->dispatchBrowserEvent('closeModal');
 		session()->flash('message', 'Registro Successfully created.');
 	}
+}
 
 	public function edit($id)
 	{
 		$record = Registro::findOrFail($id);
 		$this->selected_id = $id;
 		$this->Cod_registro = $record->Cod_registro;
-		$this->Nro_ticket = $record->Nro_ticket;
-		$this->usuario = $record->usuario;
-		$this->Nombres_y_Apellidos = $record->Nombres_y_Apellidos;
+		$this->Ticket = $record->Ticket;
+		$this->Usuario = $record->Usuario;
 		$this->Descripcion_problema = $record->Descripcion_problema;
-		$this->ruta_imagen = $record->ruta_imagen;
-		$this->Asignado = $record->Asignado;
+		$this->Ruta_imagen = $record->Ruta_imagen;
 		if (Auth::user()->Tipo === 'Administrador') {
 			$this->Activado = $record->Activado;
 		}
-		$this->codigo_oficina = $record->codigo_oficina;
+		$this->Oficina = $record->Oficina;
 		$this->resetValidation();
 	}
 
@@ -491,30 +447,20 @@ class Registros extends Component
 	{
 		if (Auth::user()->Tipo === 'Personal_Geredu') {
 			$this->validate([
-				'Cod_registro' => 'required|date',
-				'Nombres_y_Apellidos' => 'required',
-				'Nro_ticket' => [new ExclusiveOr('Nro_ticket', 'usuario'),'required_with:ruta_imagen'],
-    			'usuario' => [new ExclusiveOr('Nro_ticket', 'usuario'),'required_with:Asignado'],
-				'ruta_imagen' => [new ExclusiveOr('ruta_imagen', 'Asignado'),'required_with:Nro_ticket',
-				'numeric',
-				'min:0',],
-				'Asignado' => [new ExclusiveOr('ruta_imagen', 'Asignado'),'required_with:usuario',
-				'numeric',
-				'min:0',],
+				'Cod_registro' => 'required',
+				'Descripcion_problema' => 'required',
+				'Ticket' => 'required',
+    			'Usuario' => 'required',
+				'Ruta_imagen' => 'required',
 			]);
 		}
 		if (Auth::user()->Tipo === 'Administrador') {
 			$this->validate([
-				'Cod_registro' => 'required|date',
-				'codigo_oficina' => 'required',
-				'Nro_ticket' => [new ExclusiveOr('Nro_ticket', 'usuario'),'required_with:ruta_imagen','nullable'],
-    			'usuario' => [new ExclusiveOr('Nro_ticket', 'usuario'),'required_with:Asignado', 'nullable'],
-				'ruta_imagen' => [new ExclusiveOr('ruta_imagen', 'Asignado'),'required_with:Nro_ticket','nullable',
-				'numeric',
-				'min:0',],
-				'Asignado' => [new ExclusiveOr('ruta_imagen', 'Asignado'),'required_with:usuario', 'nullable',
-				'numeric',
-				'min:0',],
+				'Cod_registro' => 'required',
+				'Descripcion_problema' => 'required',
+				'Ticket' => 'required',
+    			'Usuario' => 'required',
+				'Ruta_imagen' => 'required',
 			]);
 		// }
 		// if ($this->ruta_imagen === '' || $this->ruta_imagen === 0) {
@@ -548,7 +494,7 @@ class Registros extends Component
 		// // 	if (Auth::user()->Tipo === 'Administrador') {
 		// // 		$record->update([
 		// // 			'Cod_registro' => $this->Cod_registro,
-		// // 			'Nro_ticket' => $this->Nro_ticket,
+		// // 			'Ticket' => $this->Ticket,
 		// // 			'usuario' => $this->usuario,
 		// // 			'C_P' => $this->C_P,
 		// // 			'Nombres_y_Apellidos' => $this->Nombres_y_Apellidos,
@@ -562,7 +508,7 @@ class Registros extends Component
 		// // 	} else {
 		// // 		$record->update([
 		// // 			'Cod_registro' => $this->Cod_registro,
-		// // 			'Nro_ticket' => $this->Nro_ticket,
+		// // 			'Ticket' => $this->Ticket,
 		// // 			'usuario' => $this->usuario,
 		// // 			'C_P' => $this->C_P,
 		// // 			'Nombres_y_Apellidos' => $this->Nombres_y_Apellidos,

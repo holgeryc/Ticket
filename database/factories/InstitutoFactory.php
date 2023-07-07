@@ -15,7 +15,7 @@ class OficinaFactory extends Factory
         return [
 			'codigo_oficina' => $this->faker->name,
 			'Nombre' => $this->faker->name,
-			'unidad' => $this->faker->name,
+			'ugel' => $this->faker->name,
         ];
     }
 }

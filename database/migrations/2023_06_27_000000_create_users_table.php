@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->enum('Tipo',['Centro_computo','Personal_Geredu','Administrador'])->nullable();
+            $table->unsignedBigInteger('codigo_ug')->nullable();
             $table->unsignedBigInteger('codigo_of')->nullable();
             $table->string('password');
             $table->rememberToken();
@@ -24,6 +25,8 @@ return new class extends Migration
 
             $table->foreign('codigo_of')->references('codigo_oficina')
                 ->on('oficinas');
+            $table->foreign('codigo_ug')->references('ug')
+                ->on('ugeles');
         });
     }
 

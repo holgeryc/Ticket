@@ -15,7 +15,6 @@ return new class extends Migration
             $table->unsignedBigInteger('codigo_oficina')->primary();
             $table->string('nombre');
             $table->unsignedBigInteger('ugel');
-            $table->string('unidad');
             $table->timestamps();
 
             $table->foreign('ugel')->references('ug')

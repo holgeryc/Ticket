@@ -33,7 +33,7 @@
                                     <td>#</td>
                                     <th>ug</th>
                                     <th>nombre</th>
-                                    <th>unidad</th>
+                                    <th>ugel</th>
                                     <td>Acciones</td>
                                 </tr>
                             </thead>
@@ -43,7 +43,7 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $row->ug }}</td>
                                         <td>{{ $row->nombre }}</td>
-                                        <td>{{ $row->unidad }}</td>
+                                        <td>{{ $row->ugel }}</td>
                                         <td width="90">
                                             <div class="dropdown">
                                                 <a class="btn btn-sm btn-secondary dropdown-toggle" href="#"

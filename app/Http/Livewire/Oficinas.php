@@ -12,7 +12,7 @@ class Oficinas extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    public $selected_id, $keyWord, $codigo_oficina, $nombre, $unidad;
+    public $selected_id, $keyWord, $codigo_oficina, $nombre, $ugel;
     public $selected_oficina = null;
 
     //los mensajes de error segun el validate
@@ -21,8 +21,8 @@ class Oficinas extends Component
         'codigo_oficina.numeric' => 'El campo codigo debe ser un valor numérico.',
         'codigo_oficina.digits' => 'El campo codigo debe tener exactamente 11 dígitos.',
         'nombre.required' => 'El campo de Nombres y Apellidos es requerido',
-        'unidad.required' => 'El campo de Cuenta Corriente es requerido',
-        'unidad.numeric' => 'El campo de Cuenta Corriente debe ser un valor numérico',
+        'ugel.required' => 'El campo de Cuenta Corriente es requerido',
+        'ugel.numeric' => 'El campo de Cuenta Corriente debe ser un valor numérico',
     ];
     public function render()
     {
@@ -30,7 +30,7 @@ class Oficinas extends Component
         $oficinas = Oficina::latest()
             ->orWhere('codigo_oficina', 'LIKE', $keyWord)
             ->orWhere('nombre', 'LIKE', $keyWord)
-            ->orWhere('unidad', 'LIKE', $keyWord)
+            ->orWhere('ugel', 'LIKE', $keyWord)
             ->paginate(13);
         return view('livewire.oficinas.view', [
             'oficinas' => $oficinas,
@@ -47,7 +47,7 @@ class Oficinas extends Component
     {
         $this->codigo_oficina = null;
         $this->nombre = null;
-        $this->unidad = null;
+        $this->ugel = null;
     }
 
     public function store()
@@ -55,13 +55,13 @@ class Oficinas extends Component
         $this->validate([
             'codigo_oficina' => 'required|numeric|digits:11',
             'nombre' => 'required',
-            'unidad' => 'required|numeric',
+            'ugel' => 'required|numeric',
         ]);
 
         Oficina::create([
             'codigo_oficina' => $this->codigo_oficina,
             'nombre' => $this->nombre,
-            'unidad' => $this->unidad
+            'ugel' => $this->ugel
         ]);
 
         $this->resetInput();
@@ -74,7 +74,7 @@ class Oficinas extends Component
         $record = Oficina::findOrFail($codigo_oficina);
         $this->codigo_oficina = $codigo_oficina;
         $this->nombre = $record->nombre;
-        $this->unidad = $record->unidad;
+        $this->ugel = $record->ugel;
         $this->resetValidation();
     }
 
@@ -83,14 +83,14 @@ class Oficinas extends Component
         $this->validate([
             'codigo_oficina' => 'required|numeric|digits:11',
             'nombre' => 'required',
-            'unidad' => 'required|numeric',
+            'ugel' => 'required|numeric',
         ]);
 
         if ($this->codigo_oficina) {
             $record = Oficina::find($this->codigo_oficina);
             $record->update([
                 'nombre' => $this->nombre,
-                'unidad' => $this->unidad
+                'ugel' => $this->ugel
             ]);
 
             $this->resetInput();

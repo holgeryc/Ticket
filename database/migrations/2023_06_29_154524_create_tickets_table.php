@@ -12,14 +12,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tickets', function (Blueprint $table) {
-            $table->unsignedBigInteger('Nro ticket')->primary();
-            $table->unsignedBigInteger('Registro');
+            $table->unsignedBigInteger('Nro_ticket')->primary();
+            $table->unsignedBigInteger('Of')->nullable();
+            $table->unsignedBigInteger('cod_usuario');
             $table->unsignedBigInteger('Encargado');
+            $table->boolean('Asignado')->default(True);
             $table->text('Solucion');
             $table->timestamps();
 
-            $table->foreign('Registro')->references('Cod_registro')->on('registros');
+            $table->foreign('Nro_ticket')->references('Cod_registro')->on('registros');
             $table->foreign('Encargado')->references('DNI')->on('users');
+            $table->foreign('cod_usuario')->references('COd_registro')->on('registros');
+            $table->foreign('Of')->references('codigo_oficina')
+                ->on('oficinas');
         });
     }
 

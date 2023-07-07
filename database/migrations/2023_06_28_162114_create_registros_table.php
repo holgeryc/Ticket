@@ -13,16 +13,19 @@ return new class extends Migration
     {
         Schema::create('registros',function(Blueprint $table){
             $table->unsignedBigInteger('Cod_registro')->primary();
-            $table->unsignedBigInteger('Nro ticket');
-            $table->unsignedBigInteger('usuario');
+            $table->unsignedBigInteger('Ticket');
+            $table->unsignedBigInteger('Oficina');
+            $table->unsignedBigInteger('Usuario');
             $table->string('Descripcion_problema');
-            $table->text('ruta_imagen')->nullable();
-            $table->boolean('Asignado')->default(True);
-            $table->date('Fecha');
+            $table->text('Ruta_imagen')->nullable();
+            $table->date('Fecha')->nullable();
             $table->timestamps();
 
             // $table->foreign('Nro ticket')->references('Nro ticket')->on('tickets');
-            $table->foreign('usuario')->references('DNI')->on('users');
+            $table->foreign('Oficina')->references('codigo_oficina')
+                ->on('oficinas');
+            $table->foreign('Usuario')->references('DNI')->on('users');
+            
         });
     }
 

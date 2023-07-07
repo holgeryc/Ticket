@@ -20,7 +20,7 @@ class CheckUserRole
         $user = $request->user();
 
         // Verifica si el usuario tiene uno de los roles permitidos
-        if ($user && in_array($user->Tipo, ['Administrador', 'Controlador', 'Personal_Geredu'])) {
+        if ($user && in_array($user->Tipo, ['Administrador', 'Centro_computo', 'Personal_Geredu'])) {
             return $next($request);
         }
 
