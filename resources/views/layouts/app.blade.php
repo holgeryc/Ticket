@@ -59,6 +59,10 @@
                                         <a href="{{ url('/users') }}" class="nav-link"><i class="fa-fw fas fa-users"></i>
                                             Usuarios</a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a href="{{ url('/ugeles') }}" class="nav-link"><i class="fa-fw fas fa-pencil"></i>
+                                            Ugeles</a>
+                                    </li>
                                 @endif
                                 @if (Auth::user()->Tipo === 'Centro_computo' || Auth::user()->Tipo === 'Centro_computo')
                                     <li class="nav-item">

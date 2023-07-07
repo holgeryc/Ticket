@@ -34,6 +34,6 @@
     </div>
     <div style="position: absolute;">
         <center style="font-size: 8px; opacity: 0.1;color:white;">JAFET CALEB ROJAS GARAY</center>
-        <center style="font-size: 8px; opacity: 0.1;color:white;">MICHAEL ANTONNI MAMANI QUINTA</center>
+        <center style="font-size: 8px; opacity: 0.1;color:white;">HOLGER ALFREDO YUPANQUI CARRILLO</center>
     </div>
 @endsection
