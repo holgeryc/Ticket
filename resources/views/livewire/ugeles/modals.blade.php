@@ -20,26 +20,17 @@
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="nombre"></label>
-                        <input wire:model="nombre" type="text" class="form-control" id="nombre"
-                            placeholder="nombre">
-                        @error('nombre')
+                        <label for="nombre_ugel"></label>
+                        <input wire:model="nombre_ugel" type="text" class="form-control" id="nombre_ugel"
+                            placeholder="nombre_ugel">
+                        @error('nombre_ugel')
                             <span class="error text-danger">{{ $message }}</span>
                         @else
-                            <small class="form-text text-info">Campo obligatorio, se recomienda el nombre completo del
+                            <small class="form-text text-info">Campo obligatorio, se recomienda el nombre_ugel completo del
                                 ugel.</small>
                         @enderror
                     </div>
-                    <div class="form-group">
-                        <label for="ugel"></label>
-                        <input wire:model="ugel" type="text" class="form-control" id="ugel"
-                            placeholder="ugel">
-                        @error('ugel')
-                            <span class="error text-danger">{{ $message }}</span>
-                        @else
-                            <small class="form-text text-info">Campo obligatorio y numerico.</small>
-                        @enderror
-                    </div>
+                    
 
                 </form>
             </div>
@@ -74,23 +65,13 @@
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="nombre"></label>
-                        <input wire:model="nombre" type="text" class="form-control" id="nombre"
-                            placeholder="nombre">
-                        @error('nombre')
+                        <label for="nombre_ugel"></label>
+                        <input wire:model="nombre_ugel" type="text" class="form-control" id="nombre_ugel"
+                            placeholder="nombre_ugel">
+                        @error('nombre_ugel')
                             <span class="error text-danger">{{ $message }}</span>
                         @else
-                            <small class="form-text text-info">Campo obligatorio, se recomienda el nombre completo de la ugel.</small>
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                        <label for="ugel"></label>
-                        <input wire:model="ugel" type="text" class="form-control" id="ugel"
-                            placeholder="ugel">
-                        @error('ugel')
-                            <span class="error text-danger">{{ $message }}</span>
-                        @else
-                            <small class="form-text text-info">Campo obligatorio y numerico.</small>
+                            <small class="form-text text-info">Campo obligatorio, se recomienda el nombre_ugel completo de la ugel.</small>
                         @enderror
                     </div>
 

@@ -15,7 +15,7 @@ use App\Rules\ExclusiveOr;
 
 
 
-class Registros extends Component
+class Tickets extends Component
 {
 	use WithPagination;
 
@@ -159,7 +159,7 @@ class Registros extends Component
 				->paginate(13);
 		}
 		
-		return view('livewire.registros.view', [
+		return view('livewire.tickets.view', [
 			'registros' => $registros,
 			'usuarios' => $usuarios,
 			'oficinas' => $oficinas,
@@ -346,7 +346,7 @@ class Registros extends Component
 		$dompdf = new Dompdf();
 
 		// Generar el contenido HTML del PDF
-		$html = view('livewire.registros.pdf', compact('registros', 'ugelSeleccionado',   'currentDateTime', 'currentURL'))->render();
+		$html = view('livewire.tickets.pdf', compact('tickets', 'ugelSeleccionado',   'currentDateTime', 'currentURL'))->render();
 		// Agregar título personalizado al HTML
 		$title = $ugelSeleccionado ;
 		$html = '<html><head><title>' . $title . '</title></head><body>' . $html . '</body></html>';
@@ -388,12 +388,14 @@ class Registros extends Component
 		if (Auth::user()->Tipo === 'Personal_Geredu') {
 			$this->validate([
 				'Descripcion_problema' => 'required',
+    			'Usuario' => 'required',
 				'Fecha_Inicio' => 'required',
 			]);
 		}
 		if (Auth::user()->Tipo === 'Administrador') {
 			$this->validate([
 				'Descripcion_problema' => 'required',
+    			'Usuario' => 'required',
 				'Fecha_Inicio' => 'required',
 			]);
 		}

@@ -55,23 +55,24 @@
                                     @enderror
                                 </div>
                             </div>
+
                             <div class="row mb-3">
-                                <label for="codigo_of"
-                                    class="col-md-4 col-form-label text-md-end">{{ __('Oficina') }}</label>
+                                <label for="codigo_ug" class="col-md-4 col-form-label text-md-end">{{ __('Ugel') }}</label>
                                 <div class="col-md-6">
-                                    <select name="codigo_of" class="form-control">
-                                        <option value="">Seleccionar Oficina</option>
-                                        @foreach ($oficinas as $oficina)
-                                            <option value="{{ $oficina->codigo_oficina }}">{{ $oficina->nombre }}</option>
+                                    <select name="codigo_ug" class="form-control" id="codigo_ug">
+                                        <option value="">Seleccionar Ugel</option>
+                                        @foreach ($ugeles as $ugel)
+                                            <option value="{{ $ugel->ug }}">{{ $ugel->nombre_ugel }}</option>
                                         @endforeach
                                     </select>
-                                    @error('codigo_of')
+                                    @error('codigo_ug')
                                         <span class="error text-danger">{{ $message }}</span>
                                     @else
                                         <small class="form-text text-info">Campo obligatorio si es de tipo Personal_Geredu.</small>
                                     @enderror
                                 </div>
                             </div>
+
 
                             <div class="row mb-3">
                                 <label for="password"

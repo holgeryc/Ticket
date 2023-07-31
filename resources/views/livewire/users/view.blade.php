@@ -34,6 +34,7 @@
                                     <th>Nombres Y Apellidos</th>
                                     <th>Email</th>
                                     <th>Tipo</th>
+                                    <th>Ugel</th>
                                     <th>Oficina</th>
                                     <th>Activado</th>
                                     <td>Acciones</td>
@@ -47,6 +48,7 @@
                                         <td>{{ $row->Nombres_y_Apellidos }}</td>
                                         <td>{{ $row->email }}</td>
                                         <td>{{ $row->Tipo }}</td>
+                                        <td>{{ $row->nombre_ugel }}</td>
                                         <td>{{ $row->Nombre }}</td>
                                         <td>{{ $row->Activado }}</td>
                                         <td width="90">

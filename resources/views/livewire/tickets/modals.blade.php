@@ -4,14 +4,28 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="createDataModalLabel">Crear Nuevo Registro</h5>
+                <h5 class="modal-title" id="createDataModalLabel">Ticket</h5>
                 <button wire:click.prevent="cancel()" type="button" class="btn-close" data-bs-dismiss="modal"
                     aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form>
                     
-                    
+                    <div class="form-group">
+                        <label for="Usuario">Usuario</label>
+                        <input wire:model="Usuario" type="text" class="form-control" id="Usuario"
+                               placeholder="Nombres y Apellidos" oninput="this.value = this.value.toUpperCase()">
+                        @auth
+                            @if (Auth::user()->Tipo === 'Personal_Geredu')
+                                @error('Usuario')
+                                    <span class="error text-danger">{{ $message }}</span>
+                                @else
+                                    <small class="form-text text-info">Campo obligatorio, Datos de la persona que realizo el
+                                        movimeinto economico.</small>
+                                @enderror
+                            @endif
+                        @endauth
+                    </div>
                     <div class="form-group">
                         <label for="Descripcion_problema">Descripcion_problema</label>
                         <input wire:model="Descripcion_problema" type="text" class="form-control" id="Descripcion_problema"
@@ -54,7 +68,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="updateModalLabel">Actualizar Registro</h5>
+                <h5 class="modal-title" id="updateModalLabel">Actualizar Ticket</h5>
                 <button wire:click.prevent="cancel()" type="button" class="btn-close" data-bs-dismiss="modal"
                     aria-label="Close"></button>
             </div>

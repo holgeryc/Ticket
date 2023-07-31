@@ -14,11 +14,7 @@ return new class extends Migration
         Schema::create('oficinas', function (Blueprint $table) {
             $table->unsignedBigInteger('codigo_oficina')->primary();
             $table->string('nombre');
-            $table->unsignedBigInteger('ugel');
             $table->timestamps();
-
-            $table->foreign('ugel')->references('ug')
-                ->on('ugeles');
         });
     }
 

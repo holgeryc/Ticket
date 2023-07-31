@@ -16,7 +16,7 @@ class User extends Model implements Authenticatable
     protected $table = 'users';
     protected $primaryKey= 'DNI';
 
-    protected $fillable = ['DNI','Nombres_y_Apellidos','email','Tipo','codigo_of','password'];
+    protected $fillable = ['DNI','Nombres_y_Apellidos','email','Tipo', 'codigo_ug','codigo_of','password'];
 	
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
@@ -24,6 +24,10 @@ class User extends Model implements Authenticatable
     public function oficina()
     {
         return $this->hasOne('App\Models\Oficina', 'codigo_of');
+    }
+    public function ugel()
+    {
+        return $this->hasOne('App\Models\Ugel', 'codigo_ug');
     }
     
 }

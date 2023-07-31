@@ -1,4 +1,4 @@
-@section('title', __('Registros'))
+@section('title', __('Tickets'))
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-12">
@@ -7,7 +7,7 @@
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <div class="float-left">
                             <h4><i class="fa fa-bars text-info"></i>
-                                Registros</h4>
+                                Tickets</h4>
                         </div>
                         @if (session()->has('message'))
                             <div wire:poll.4s class="btn btn-sm btn-success" style="margin-top:0px; margin-bottom:0px;">
@@ -15,7 +15,7 @@
                         @endif
                         <div>
                             <input wire:model='keyWord' type="text" class="form-control" name="search"
-                                id="search" placeholder="Buscar Registros">
+                                id="search" placeholder="Buscar Tickets">
                         </div>
                         @auth
                             @if (Auth::user()->Tipo != 'Personal_Geredu')
@@ -55,19 +55,19 @@
                                 {{ session('error') }}
                             </div>
                         @endif
-                        @auth
-                            @if (Auth::user()->Tipo === 'Administrador' || Auth::user()->Tipo === 'Personal_Geredu')
+                        <!-- @auth
+                            @if (Auth::user()->Tipo === 'Administrador' || Auth::user()->Tipo === 'Centro_computo')
                                 <div class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#createDataModal">
-                                    <i class="fa fa-plus"></i> Agregar Registros
+                                    <i class="fa fa-plus"></i> Agregar Tickets
                                 </div>
                             @endif
-                        @endauth
+                        @endauth -->
 
                     </div>
                 </div>
 
                 <div class="card-body">
-                    @include('livewire.registros.modals')
+                    @include('livewire.tickets.modals')
                     <div class="table-responsive">
                         <table class="table table-bordered table-sm">
                             <thead class="thead">
@@ -75,8 +75,13 @@
                                     <th>Nro Ticket</th>
                                     <th>Usuario</th>
                                     <th>Ugel</th>
+                                    <th>Oficina</th>
                                     <th>Descripcion_problema</th>
-                                    <th>Fecha</th>
+                                    <th>Encargado</th>
+                                    <th>Estado</th>
+                                    <th>Solucion</th>
+                                    <th>Fecha_Inicio</th>
+                                    <th>Fecha_Final</th>
                                     <th>Activado</th>
                                     @auth
                                         @if (Auth::user()->Tipo === 'Administrador' || Auth::user()->Tipo === 'Personal_Geredu')
@@ -91,11 +96,16 @@
                                         <td>{{ $row->Ticket }}</td>
                                         <td>{{ $row->Nombres_y_Apellidos }}</td>
                                         <td>{{ $row->nombre_ugel }}</td>
+                                        <td>{{ $row->nombre}}</td>
                                         <td>{{ $row->Descripcion_problema }}</td>
+                                        <td>{{ $row->Encargado }}</td>
+                                        <td>{{ $row->Estado }}</td>
+                                        <td>{{ $row->Solucion }}</td>
                                         <td>{{ $row->Fecha_Inicio }}</td>
+                                        <td>{{ $row->Fecha_Final }}</td>
                                         <td>{{ $row->Activado }}</td>
                                         @auth
-                                            @if (Auth::user()->Tipo === 'Administrador')
+                                            @if (Auth::user()->Tipo === 'Administrador'|| Auth::user()->Tipo === 'Centro_computo')
                                                 <td width="90">
                                                     <div class="dropdown">
                                                         <a class="btn btn-sm btn-secondary dropdown-toggle" href="#"
@@ -108,7 +118,7 @@
                                                                     wire:click="edit({{ $row->id }})"><i
                                                                         class="fa fa-edit"></i> Editar </a></li>
                                                             <li><a class="dropdown-item"
-                                                                    onclick="confirm('Confirm Delete Registro id {{ $row->id }}? \nDeleted Registros cannot be recovered!')||event.stopImmediatePropagation()"
+                                                                    onclick="confirm('Confirm Delete Registro id {{ $row->id }}? \nDeleted Tickets cannot be recovered!')||event.stopImmediatePropagation()"
                                                                     wire:click="destroy({{ $row->id }})"><i
                                                                         class="fa fa-trash"></i> Eliminar </a></li>
                                                         </ul>
@@ -128,7 +138,7 @@
                                                                     wire:click="edit({{ $row->id }})"><i
                                                                         class="fa fa-edit"></i> Editar </a></li>
                                                             <li><a class="dropdown-item"
-                                                                    onclick="confirm('Confirm Delete Registro id {{ $row->id }}? \nDeleted Registros cannot be recovered!')||event.stopImmediatePropagation()"
+                                                                    onclick="confirm('Confirm Delete Registro id {{ $row->id }}? \nDeleted Tickets cannot be recovered!')||event.stopImmediatePropagation()"
                                                                     wire:click="destroy({{ $row->id }})"><i
                                                                         class="fa fa-trash"></i> Eliminar </a></li>
                                                         </ul>

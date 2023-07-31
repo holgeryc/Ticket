@@ -63,11 +63,23 @@
                                         <a href="{{ url('/ugeles') }}" class="nav-link"><i class="fa-fw fas fa-pencil"></i>
                                             Ugeles</a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a href="{{ url('/tickets') }}" class="nav-link"><i class="fa-fw fas fa-ticket"></i>
+                                            Tickets</a>
+                                    </li>
                                 @endif
                                 @if (Auth::user()->Tipo === 'Centro_computo' || Auth::user()->Tipo === 'Centro_computo')
                                     <li class="nav-item">
                                         <a href="{{ url('/registros') }}" class="nav-link"><i class="fa-fw fas fa-users"></i>
                                             Registros</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ url('/oficinas') }}" class="nav-link"><i class="fa-fw fas fa-home"></i>
+                                            Oficinas</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ url('/tickets') }}" class="nav-link"><i class="fa-fw fas fa-ticket"></i>
+                                            Tickets</a>
                                     </li>
                                 @endif
                                 @if (Auth::user()->Tipo === 'Personal_Geredu' || Auth::user()->Tipo === 'Personal_Geredu')
@@ -76,8 +88,8 @@
                                             Registros</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{ url('/ugeles') }}" class="nav-link"><i class="fa-fw fas fa-users"></i>
-                                            ugeles</a>
+                                        <a href="{{ url('/tickets') }}" class="nav-link"><i class="fa-fw fas fa-ticket"></i>
+                                            Tickets</a>
                                     </li>
                                 @endif
                             @endauth

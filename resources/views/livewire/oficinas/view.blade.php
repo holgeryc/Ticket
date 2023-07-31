@@ -33,7 +33,6 @@
                                     <td>#</td>
                                     <th>codigo_oficina</th>
                                     <th>nombre</th>
-                                    <th>ugel</th>
                                     <td>Acciones</td>
                                 </tr>
                             </thead>
@@ -43,7 +42,6 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $row->codigo_oficina }}</td>
                                         <td>{{ $row->nombre }}</td>
-                                        <td>{{ $row->ugel }}</td>
                                         <td width="90">
                                             <div class="dropdown">
                                                 <a class="btn btn-sm btn-secondary dropdown-toggle" href="#"

@@ -15,7 +15,7 @@ class Oficina extends Model
     
     protected $primaryKey='codigo_oficina';
 
-    protected $fillable = ['codigo_oficina','nombre','ugel'];
+    protected $fillable = ['codigo_oficina','nombre'];
 	
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -39,6 +39,14 @@ class Oficina extends Model
     public function usuarios()
     {
         return $this->hasMany('App\Models\Usuario', 'codigo_oficina');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function ugeles()
+    {
+        return $this->hasOne('App\Models\Ugel', 'ug', 'ugel');
     }
     
 }

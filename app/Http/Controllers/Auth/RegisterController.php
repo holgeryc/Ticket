@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Oficina;
+use App\Models\Ugel;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -69,7 +70,8 @@ class RegisterController extends Controller
                 'DNI' => 'required|numeric|digits:8',
                 'Nombres_y_Apellidos' => 'required',
                 'email' => 'required|email',
-                'codigo_of' => 'required',
+                'codigo_ug' => 'required',
+                // 'codigo_of' => 'required',
                 'password' => 'required|min:8|confirmed',
         ],$messages);
     }
@@ -87,13 +89,16 @@ class RegisterController extends Controller
 			'DNI' => $data['DNI'],
 			'Nombres_y_Apellidos' => $data['Nombres_y_Apellidos'],
 			'email' => $data['email'],
-			'codigo_of' => $data['codigo_of'],
+            'codigo_ug' => $data['codigo_ug'],
+			// 'codigo_of' => $data['codigo_of'],
             'password' =>Hash::make($data['password'])
         ]);
     }
     public function showRegistrationForm()
     {
         $oficinas = Oficina::all();
-        return view('auth.register', compact('oficinas'));
+        $ugeles = Ugel::all();
+        return view('auth.register', compact('oficinas', 'ugeles'));
     }
+
 }

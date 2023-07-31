@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Ugel;
+use App\Models\Oficina;
 
 class Ugeles extends Component
 {
@@ -12,7 +13,7 @@ class Ugeles extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    public $selected_id, $keyWord, $ug, $nombre;
+    public $selected_id, $keyWord, $ug, $nombre_ugel, $nombre_oficina;
     public $selected_ugel = null;
 
     //los mensajes de error segun el validate
@@ -20,17 +21,22 @@ class Ugeles extends Component
         'codigo_ug.required' => 'El campo codigo es requerido.',
         'codigo_ug.numeric' => 'El campo codigo debe ser un valor numérico.',
         'codigo_ug.digits' => 'El campo codigo debe tener exactamente 11 dígitos.',
-        'nombre.required' => 'El campo de Nombres y Apellidos es requerido',
+        'nombre_ugel.required' => 'El campo de nombre_ugels y Apellidos es requerido',
     ];
     public function render()
     {
+        $oficinas = Oficina::all();
         $keyWord = '%' . $this->keyWord . '%';
-        $ugeles = ugel::latest()
+        $ugeles = Ugel::latest()
+            ->leftjoin('oficinas', 'ugeles.nombre_oficina', '=', 'oficinas.codigo_oficina')
+            ->select('ugeles.*', 'oficinas.nombre')
             ->orWhere('ug', 'LIKE', $keyWord)
-            ->orWhere('nombre', 'LIKE', $keyWord)
+            ->orWhere('nombre_ugel', 'LIKE', $keyWord)
+            ->orWhere('oficinas.nombre', 'LIKE', $keyWord)
             ->paginate(13);
         return view('livewire.ugeles.view', [
             'ugeles' => $ugeles,
+            'oficinas' => $oficinas,
         ]);
     }
 
@@ -43,19 +49,19 @@ class Ugeles extends Component
     private function resetInput()
     {
         $this->ug = null;
-        $this->nombre = null;
+        $this->nombre_ugel = null;
     }
 
     public function store()
     {
         $this->validate([
-            'ug' => 'required|numeric|digits:11',
-            'nombre' => 'required',
+            'ug' => 'required',
+            'nombre_ugel' => 'required',
         ]);
 
         ugel::create([
             'ug' => $this->ug,
-            'nombre' => $this->nombre,
+            'nombre_ugel' => $this->nombre_ugel,
         ]);
 
         $this->resetInput();
@@ -67,21 +73,21 @@ class Ugeles extends Component
     {
         $record = ugel::findOrFail($ug);
         $this->ug = $ug;
-        $this->nombre = $record->nombre;
+        $this->nombre_ugel = $record->nombre_ugel;
         $this->resetValidation();
     }
 
     public function update()
     {
         $this->validate([
-            'ug' => 'required|numeric|digits:11',
-            'nombre' => 'required',
+            'ug' => 'required',
+            'nombre_ugel' => 'required',
         ]);
 
         if ($this->ug) {
             $record = ugel::find($this->ug);
             $record->update([
-                'nombre' => $this->nombre,
+                'nombre_ugel' => $this->nombre_ugel,
             ]);
 
             $this->resetInput();

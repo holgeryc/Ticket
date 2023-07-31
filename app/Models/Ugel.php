@@ -15,7 +15,7 @@ class Ugel extends Model
     
     protected $primaryKey='ug';
 
-    protected $fillable = ['ug','nombre'];
+    protected $fillable = ['ug','nombre_ugel', 'nombre_oficina'];
 	
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

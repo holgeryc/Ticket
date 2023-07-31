@@ -13,14 +13,14 @@ class Registro extends Model
 
     protected $table = 'registros';
 
-    protected $fillable = ['Cod_registro','Ticket','Oficina','Usuario','Descripcion_problema','Ruta_imagen','codigo_oficina','DNI'];
+    protected $fillable = ['Cod_registro','Ticket', 'cod_ugel', 'Oficina','Usuario','Descripcion_problema','Encargado','Estado','Solucion','Ruta_imagen','Fecha_Inicio','Fecha_Final','codigo_oficina'];
 	
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function oficina()
     {
-        return $this->hasOne('App\Models\Oficina', 'codigo_oficina', 'codigo_of');
+        return $this->hasOne('App\Models\Oficina', 'codigo_oficina', 'Oficina');
     }
     
     /**
@@ -29,6 +29,11 @@ class Registro extends Model
     public function user()
     {
         return $this->hasOne('App\Models\User', 'DNI', 'Usuario');
+    }
+
+    public function ugel()
+    {
+        return $this->hasOne('App\Models\Ugel', 'ug', 'cod_ugel');
     }
     
 }

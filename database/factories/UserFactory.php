@@ -17,7 +17,8 @@ class UserFactory extends Factory
 			'Nombres_y_Apellidos' => $this->faker->name,
 			'email' => $this->faker->name,
 			'Tipo' => $this->faker->name,
-			'codigo_oficina' => $this->faker->name,
+			'codigo_of' => $this->faker->name,
+            'codigo_ug' => $this->faker->name,
 			'Activado' => $this->faker->name,
         ];
     }

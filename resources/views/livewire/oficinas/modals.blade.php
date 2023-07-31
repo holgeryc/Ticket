@@ -30,16 +30,6 @@
                                 Oficina.</small>
                         @enderror
                     </div>
-                    <div class="form-group">
-                        <label for="ugel"></label>
-                        <input wire:model="ugel" type="text" class="form-control" id="ugel"
-                            placeholder="ugel">
-                        @error('ugel')
-                            <span class="error text-danger">{{ $message }}</span>
-                        @else
-                            <small class="form-text text-info">Campo obligatorio y numerico.</small>
-                        @enderror
-                    </div>
 
                 </form>
             </div>
@@ -81,16 +71,6 @@
                             <span class="error text-danger">{{ $message }}</span>
                         @else
                             <small class="form-text text-info">Campo obligatorio, se recomienda el nombre completo de la oficina.</small>
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                        <label for="ugel"></label>
-                        <input wire:model="ugel" type="text" class="form-control" id="ugel"
-                            placeholder="ugel">
-                        @error('ugel')
-                            <span class="error text-danger">{{ $message }}</span>
-                        @else
-                            <small class="form-text text-info">Campo obligatorio y numerico.</small>
                         @enderror
                     </div>
 

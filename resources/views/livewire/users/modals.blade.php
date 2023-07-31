@@ -53,6 +53,23 @@
                             <small class="form-text text-info">De no seleccionar, sera de tipo Personal_Geredu.</small>
                         @enderror
                     </div>
+
+                    <div class="form-group">
+                        <label for="codigo_ug"></label>
+                        <select wire:model="codigo_ug" class="form-control" id="codigo_ug"
+                            placeholder="codigo_ug">
+                            <option value="">Seleccionar Ugel</option>
+                            @foreach ($ugeles as $ugel)
+                                <option value="{{ $ugel->ug }}">{{ $ugel->nombre_ugel }}</option>
+                            @endforeach
+                        </select>
+                        @error('codigo_ug')
+                            <span class="error text-danger">{{ $message }}</span>
+                        @else
+                            <small class="form-text text-info">Campo obligatorio si es de tipo Personal_Geredu.</small>
+                        @enderror
+                    </div>
+
                     <div class="form-group">
                         <label for="codigo_oficina"></label>
                         <select wire:model="codigo_oficina" class="form-control" id="codigo_oficina"
@@ -145,6 +162,23 @@
                             <small class="form-text text-info">De no seleccionar, sera de tipo Personal_Geredu.</small>
                         @enderror
                     </div>
+
+                    <div class="form-group">
+                        <label for="codigo_ug">Ugel Asociado</label>
+                        <select wire:model="codigo_ug" class="form-control" id="codigo_ug"
+                            placeholder="codigo_ug">
+                            <option value="">Seleccionar Ugel</option>
+                            @foreach ($ugeles as $ugel)
+                                <option value="{{ $ugel->ug }}">{{ $ugel->nombre_ugel }}</option>
+                            @endforeach
+                        </select>
+                        @error('codigo_ug')
+                            <span class="error text-danger">{{ $message }}</span>
+                        @else
+                            <small class="form-text text-info">Campo obligatorio si es de tipo Personal_Geredu.</small>
+                        @enderror
+                    </div>
+
                     <div class="form-group">
                         <label for="codigo_oficina">Oficina Asociado</label>
                         <select wire:model="codigo_oficina" class="form-control" id="codigo_oficina"

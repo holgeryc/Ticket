@@ -78,7 +78,7 @@
                     </div>
                 </div>
                 <div style="font-size: 50px; text-align: center; top: 50%; left: 50%; transform: translate(-25%, -200%);font-family: Georgia, sans-serif;color: rgb(113, 190, 209);">
-                    ISSICO <span style="font-size: 40px;">v(0.1)</span>
+                    SATU <span style="font-size: 40px;">v(0.1)</span>
                 </div>
             </div>
         </div>

@@ -13,8 +13,12 @@ return new class extends Migration
     {
         Schema::create('ugeles', function (Blueprint $table) {
             $table->unsignedBigInteger('ug')->primary();
-            $table->string('nombre');
+            $table->string('nombre_ugel');
+            $table->unsignedBigInteger('nombre_oficina');
             $table->timestamps();
+
+            $table->foreign('nombre_oficina')->references('codigo_oficina')
+                ->on('oficinas');
         });
     }
 

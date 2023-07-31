@@ -7,6 +7,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\User;
 use App\Models\Oficina;
+use App\Models\Ugel;
 
 
 class Users extends Component
@@ -14,7 +15,7 @@ class Users extends Component
     use WithPagination;
 
     protected $paginationTheme = 'bootstrap';
-    public $selected_id, $keyWord, $DNI, $Nombres_y_Apellidos, $email, $Tipo, $codigo_of, $password;
+    public $selected_id, $keyWord, $DNI, $Nombres_y_Apellidos, $email, $Tipo, $codigo_ug, $codigo_of, $password;
     public $NuevaContraseña = false;
 
     protected $messages = [
@@ -33,20 +34,25 @@ class Users extends Component
     public function render()
     {
         $oficinas = Oficina::all();
+        $ugeles = Ugel::all();
         $keyWord = '%' . $this->keyWord . '%';
         $usuarios = User::latest()
             ->leftjoin('oficinas', 'users.codigo_of', '=', 'oficinas.codigo_oficina')
-            ->select('users.*', 'oficinas.Nombre')
+            ->leftjoin('ugeles', 'users.codigo_ug', '=', 'ugeles.ug')
+            ->select('users.*', 'oficinas.nombre')
+            ->select('users.*', 'ugeles.nombre_ugel')
             ->orWhere('DNI', 'LIKE', $keyWord)
             ->orWhere('Nombres_y_Apellidos', 'LIKE', $keyWord)
             ->orWhere('email', 'LIKE', $keyWord)
             ->orWhere('Tipo', 'LIKE', $keyWord)
-            ->orWhere('oficinas.Nombre', 'LIKE', $keyWord)
+            ->orWhere('oficinas.nombre', 'LIKE', $keyWord)
+            ->orWhere('ugeles.nombre_ugel', 'LIKE', $keyWord)
             // ->orWhere('Activado', 'LIKE', $keyWord)
             ->paginate(13);
         return view('livewire.users.view', [
             'users' => $usuarios,
             'oficinas' => $oficinas,
+            'ugeles' => $ugeles,
         ]);
     }
 
@@ -63,6 +69,7 @@ class Users extends Component
         $this->email = null;
         $this->Tipo = null;
         $this->codigo_of = null;
+        $this->codigo_ug = null;
         // $this->Activado = null;
         $this->password = null;
     }
@@ -73,7 +80,7 @@ class Users extends Component
             'DNI' => 'required|numeric|digits:8',
             'Nombres_y_Apellidos' => 'required',
             'email' => 'required|email',
-            'codigo_of' => 'required_if:Tipo,Personal_Geredu',
+            'tipo' => 'required_if:Tipo,Personal_Geredu',
             'password' => 'required|min:8'
         ]);
         if ($this->Tipo === null) {
@@ -85,6 +92,7 @@ class Users extends Component
             'email' => $this->email,
             'Tipo' => $this->Tipo,
             'codigo_of' => $this->codigo_of,
+            'codigo_ug' => $this->codigo_ug,
             'password' => Hash::make($this->password)
         ]);
 
@@ -101,6 +109,7 @@ class Users extends Component
         $this->email = $record->email;
         $this->Tipo = $record->Tipo;
         $this->codigo_of = $record->codigo_of;
+        $this->codigo_ug = $record->codigo_ug;
         $this->resetValidation();
     }
 
@@ -109,8 +118,8 @@ class Users extends Component
         $this->validate([
             'DNI' => 'required|numeric|digits:8',
             'email' => 'required',
-            'codigo_of' => 'required_if:Tipo,Personal_Geredu',
-            'Tipo' => 'required',
+            'Tipo' => 'required_if:Tipo,Personal_Geredu',
+            'codigo_of' => 'required',
             'password' => 'required_if:NuevaContraseña,true',
         ]);
         if ($this->codigo_of === '') {
@@ -123,7 +132,8 @@ class Users extends Component
                 'Nombres_y_Apellidos' => $this->Nombres_y_Apellidos,
                 'email' => $this->email,
                 'Tipo' => $this->Tipo,
-                'codigo_of' => $this->codigo_ofi,
+                'codigo_of' => $this->codigo_of,
+                'codigo_ug' => $this->codigo_ug,
                 'password' => Hash::make($this->password)
             ]);
 
@@ -138,6 +148,7 @@ class Users extends Component
                     'email' => $this->email,
                     'Tipo' => $this->Tipo,
                     'codigo_of' => $this->codigo_of,
+                    'codigo_ug' => $this->codigo_ug,
                 ]);
 
                 $this->resetInput();
